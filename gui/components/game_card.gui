@@ -1,0 +1,51 @@
+fonts {
+  name: "primary"
+  font: "/fonts/primary.font"
+}
+textures {
+  name: "game_card"
+  texture: "/atlas/game_card.atlas"
+}
+nodes {
+  size {
+    x: 550.0
+    y: 340.0
+  }
+  type: TYPE_BOX
+  id: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  type: TYPE_BOX
+  texture: "game_card/Normal_Mode"
+  id: "card_bg"
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -240.0
+  }
+  scale {
+    x: 1.5
+    y: 1.5
+    z: 1.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Super Mode"
+  font: "primary"
+  id: "game_name"
+  pivot: PIVOT_W
+  line_break: true
+  parent: "root"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

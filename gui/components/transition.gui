@@ -1,0 +1,80 @@
+script: "/scripts/transition.gui_script"
+fonts {
+  name: "primary"
+  font: "/fonts/primary.font"
+}
+nodes {
+  position {
+    x: 360.0
+    y: 720.0
+  }
+  size {
+    x: 720.0
+    y: 1440.0
+  }
+  type: TYPE_BOX
+  id: "root"
+  adjust_mode: ADJUST_MODE_STRETCH
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_PIE
+  id: "circle"
+  parent: "root"
+  layer: "1"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  size {
+    x: 720.0
+    y: 1440.0
+  }
+  type: TYPE_BOX
+  id: "loading_overlay"
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
+  layer: "2"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    y: -386.0
+  }
+  scale {
+    x: 1.2852
+    y: 1.2852
+    z: 1.2852
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Loading..."
+  font: "primary"
+  id: "loading_text"
+  parent: "loading_overlay"
+  inherit_alpha: true
+}
+layers {
+  name: "1"
+}
+layers {
+  name: "2"
+}
+layers {
+  name: "3"
+}
+layers {
+  name: "4"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

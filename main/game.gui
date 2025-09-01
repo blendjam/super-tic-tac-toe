@@ -1,0 +1,133 @@
+script: "/scripts/game.gui_script"
+textures {
+  name: "button"
+  texture: "/atlas/button.atlas"
+}
+nodes {
+  position {
+    x: 360.0
+    y: 720.0
+  }
+  size {
+    x: 720.0
+    y: 1440.0
+  }
+  type: TYPE_BOX
+  id: "root"
+  adjust_mode: ADJUST_MODE_STRETCH
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  size {
+    x: 720.0
+    y: 1440.0
+  }
+  color {
+    x: 0.447
+    y: 0.616
+  }
+  type: TYPE_BOX
+  id: "background"
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "main"
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  type: TYPE_TEMPLATE
+  id: "board"
+  parent: "main"
+  inherit_alpha: true
+  template: "/gui/components/board.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "board/root"
+  parent: "board"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "board/line"
+  parent: "board/root"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "board/line1"
+  parent: "board/root"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "board/line2"
+  parent: "board/root"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "board/line3"
+  parent: "board/root"
+  template_node_child: true
+}
+nodes {
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "end_game"
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    y: 720.0
+  }
+  size {
+    x: 720.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "top_anchor"
+  yanchor: YANCHOR_TOP
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    x: -246.0
+    y: -110.0
+  }
+  size {
+    x: 80.0
+    y: 80.0
+  }
+  type: TYPE_BOX
+  texture: "button/Home"
+  id: "home_button"
+  xanchor: XANCHOR_LEFT
+  parent: "top_anchor"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

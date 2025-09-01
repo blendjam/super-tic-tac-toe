@@ -1,0 +1,27 @@
+local PlayState = {
+	"ZOOMOUT",
+	"ZOOMIN",
+	"FULLVIEW",
+	"PLAY",
+	"END"
+}
+local NUM_PLAYERS = 2
+function init(self)
+	self.player_turn = 1
+	self.play_state = PlayState.FULLVIEW
+	self.board = nil
+end
+
+local function draw_final_line()
+
+end
+local function on_end_game(self, winner)
+	self.play_state = PlayState.END
+	draw_final_line()
+	msg.post("game:/game_gui", "on_end_game")
+end
+
+local function change_turn(self)
+	self.player_turn = (self.player_turn % NUM_PLAYERS) + 1
+	msg.post("game:/game_gui", "on_change_turn", { player_turn = self.player_turn })
+end

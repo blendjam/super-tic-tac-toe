@@ -1,0 +1,126 @@
+script: "/scripts/main_menu.gui_script"
+fonts {
+  name: "primary"
+  font: "/fonts/primary.font"
+}
+nodes {
+  position {
+    x: 360.0
+    y: 720.0
+  }
+  size {
+    x: 720.0
+    y: 1440.0
+  }
+  type: TYPE_BOX
+  id: "root"
+  adjust_mode: ADJUST_MODE_STRETCH
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    y: 720.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "top_anchor"
+  yanchor: YANCHOR_TOP
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    y: -158.0
+  }
+  scale {
+    x: 2.0
+    y: 2.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.996
+    y: 0.282
+    z: 0.416
+  }
+  type: TYPE_TEXT
+  text: "SUPER\n"
+  "TIC TAC TOE"
+  font: "primary"
+  id: "title"
+  parent: "top_anchor"
+  inherit_alpha: true
+  text_leading: 1.2
+}
+nodes {
+  position {
+    y: 416.0
+  }
+  size {
+    x: 720.0
+    y: 1139.0
+  }
+  type: TYPE_BOX
+  id: "scroll_container"
+  pivot: PIVOT_N
+  parent: "root"
+  inherit_alpha: true
+  clipping_mode: CLIPPING_MODE_STENCIL
+  clipping_visible: false
+}
+nodes {
+  size {
+    x: 720.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "grid_container"
+  pivot: PIVOT_N
+  parent: "scroll_container"
+  inherit_alpha: true
+  visible: false
+}
+nodes {
+  position {
+    y: -190.0
+  }
+  type: TYPE_TEMPLATE
+  id: "game_card"
+  parent: "grid_container"
+  inherit_alpha: true
+  template: "/gui/components/game_card.gui"
+}
+nodes {
+  size {
+    x: 550.0
+    y: 460.0
+  }
+  type: TYPE_BOX
+  id: "game_card/root"
+  parent: "game_card"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_card/card_bg"
+  parent: "game_card/root"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "game_card/game_name"
+  parent: "game_card/root"
+  template_node_child: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

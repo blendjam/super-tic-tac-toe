@@ -1,0 +1,31 @@
+images {
+  image: "/textures/buttons/Button_Disabled.png"
+}
+images {
+  image: "/textures/buttons/Button Pressed.png"
+}
+images {
+  image: "/textures/buttons/Button.png"
+}
+images {
+  image: "/textures/buttons/Full Screen Disabled.png"
+}
+images {
+  image: "/textures/buttons/Full_Screen.png"
+}
+images {
+  image: "/textures/buttons/Home.png"
+}
+images {
+  image: "/textures/buttons/Knob.png"
+}
+images {
+  image: "/textures/buttons/Replay.png"
+}
+images {
+  image: "/textures/buttons/Zoom_Out.png"
+}
+images {
+  image: "/textures/buttons/Zoom_Out_Pressed.png"
+}
+extrude_borders: 2

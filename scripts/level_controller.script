@@ -1,0 +1,12 @@
+LevelController =require("modules.level_controller")
+function init()
+	LevelController:init()
+end
+
+function on_message(self, message_id, message, sender)
+	LevelController:on_message(message_id, message, sender)
+end
+
+function final(self)
+	LevelController:final()
+end

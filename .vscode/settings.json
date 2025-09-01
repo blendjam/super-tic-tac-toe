@@ -11,7 +11,7 @@
   "Lua.completion.autoRequire": false,
   "Lua.diagnostics.libraryFiles": "Disable",
   "Lua.diagnostics.disable": ["lowercase-global", "redefined-local"],
-  "Lua.workspace.library": [".defold/api"],
+  "Lua.workspace.library": [".defold/api", "~/Library/Application Support/Code/User/globalStorage/astronachos.defold", ".defold/assets"],
   "glsllint.additionalStageAssociations": {
     ".fp": "frag",
     ".vp": "vert"

@@ -9,4 +9,6 @@ Thumbs.db
 .project
 .cproject
 builtins
-.defold/
+/.defold
+/.vscode
+debugger

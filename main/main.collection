@@ -1,2 +1,14 @@
 name: "main"
+instances {
+  id: "level_controller"
+  prototype: "/levels/level_controller.go"
+}
 scale_along_z: 0
+embedded_instances {
+  id: "transition"
+  data: "components {\n"
+  "  id: \"transition\"\n"
+  "  component: \"/gui/components/transition.gui\"\n"
+  "}\n"
+  ""
+}

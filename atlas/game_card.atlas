@@ -1,0 +1,10 @@
+images {
+  image: "/textures/thumbnails/Normal_Mode.png"
+}
+images {
+  image: "/textures/thumbnails/Grid_Mode.png"
+}
+images {
+  image: "/textures/thumbnails/Super_Mode.png"
+}
+extrude_borders: 2

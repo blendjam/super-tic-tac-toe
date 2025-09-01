@@ -5,9 +5,9 @@ main_collection = /main/main.collectionc
 shared_state = 1
 
 [display]
-width = 960
-height = 640
-high_dpi = 1
+width = 720
+height = 1440
+high_dpi = 0
 
 [android]
 input_method = HiddenInputField
@@ -17,4 +17,11 @@ scale_mode = stretch
 
 [project]
 title = SuperTicTacToe
+dependencies#0 = https://github.com/Insality/druid/archive/refs/tags/1.1.5.zip
+dependencies#1 = https://github.com/Insality/defold-event/archive/refs/tags/12.zip 
+
+[render]
+clear_color_red = 1.0
+clear_color_green = 1.0
+clear_color_blue = 1.0
 

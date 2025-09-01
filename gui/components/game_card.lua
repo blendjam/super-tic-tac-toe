@@ -1,0 +1,23 @@
+---@class widget.game_card : druid.widget
+local M = {}
+
+local card_type = {
+    { name = "Normal Mode", image = "Normal_Mode" },
+    { name = "Super Mode",  image = "Super_Mode" },
+    { name = "Grid Mode",   image = "Grid_Mode" }
+}
+
+function M:init(card_id)
+    self.root = self:get_node("root")
+    self.card_bg = self:get_node("card_bg")
+    self.text = self:get_node("game_name")
+    self.card_id = card_id
+    gui.play_flipbook(self.card_bg, card_type[self.card_id].image)
+    gui.set_text(self.text, card_type[self.card_id].name)
+    self.button = self.druid:new_button(self.card_bg, function()
+        pprint("SELECTED", card_id)
+        LevelController:load_level(LevelController.Levels.game, { roomType = card_type[self.card_id].name }, true)
+    end)
+end
+
+return M
