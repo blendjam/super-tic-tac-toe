@@ -1,0 +1,252 @@
+name: "super_board"
+collection_instances {
+  id: "board22"
+  collection: "/prefabs/board.collection"
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board21"
+  collection: "/prefabs/board.collection"
+  position {
+    x: -200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board12"
+  collection: "/prefabs/board.collection"
+  position {
+    y: 200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board32"
+  collection: "/prefabs/board.collection"
+  position {
+    y: -200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board23"
+  collection: "/prefabs/board.collection"
+  position {
+    x: 200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board13"
+  collection: "/prefabs/board.collection"
+  position {
+    x: 200.0
+    y: 200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board33"
+  collection: "/prefabs/board.collection"
+  position {
+    x: 200.0
+    y: -200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board11"
+  collection: "/prefabs/board.collection"
+  position {
+    x: -200.0
+    y: 200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+collection_instances {
+  id: "board31"
+  collection: "/prefabs/board.collection"
+  position {
+    x: -200.0
+    y: -200.0
+  }
+  scale3 {
+    x: 0.25
+    y: 0.25
+  }
+}
+scale_along_z: 0
+embedded_instances {
+  id: "line4"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 16.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    x: 100.0
+  }
+  rotation {
+    z: 0.70710677
+    w: 0.70710677
+  }
+}
+embedded_instances {
+  id: "line1"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 16.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    x: -100.0
+  }
+  rotation {
+    z: 0.70710677
+    w: 0.70710677
+  }
+}
+embedded_instances {
+  id: "line2"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 16.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    y: -100.0
+  }
+}
+embedded_instances {
+  id: "line3"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 16.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    y: 100.0
+  }
+}
+embedded_instances {
+  id: "board"
+  children: "line"
+  data: "components {\n"
+  "  id: \"super_board\"\n"
+  "  component: \"/scripts/super_board.script\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"board_area\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 580.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "line"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 15.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  scale3 {
+    x: 1.0E-6
+    y: 1.0E-6
+    z: 1.0E-6
+  }
+}

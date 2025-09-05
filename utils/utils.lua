@@ -7,9 +7,6 @@ local DISPLAY_WIDTH = sys.get_config_int("display.width")
 local DISPLAY_HEIGHT = sys.get_config_int("display.height")
 
 local M = {
-    mask_image = "/assets/textures/avatarPic/avatarMask.png",
-    profile_image_path = "/assets/textures/avatarPic/",
-    default_image = "/assets/textures/avatarPic/0.png",
     center = vmath.vector3(720 / 2, 1440 / 2, 0.5),
     render_state = {},
     worldSize = {
@@ -23,6 +20,27 @@ local M = {
         left = 0
     }
 }
+
+M.PlayerType = {
+    CROSS = "CROSS",
+    CIRCLE = "CIRCLE"
+}
+
+M.WinnerType = {
+    CROSS = M.PlayerType.CROSS,
+    CIRCLE = M.PlayerType.CIRCLE,
+    NONE = "NONE",
+    TIE = "TIE"
+}
+
+M.PlayState = {
+    PLAY = "PLAY",
+    END = "END",
+    ZOOMIN = "ZOOMIN",
+    ZOOMOUT = "ZOOMOUT",
+    FULLVIEW = "FULLVIEW",
+}
+
 
 M.RoomType = {
     Single = 1,
@@ -113,11 +131,6 @@ function M.open_feedback_mail(clientId)
         "\n\nYour Feedback: "
 
     sys.open_url("mailto:support@bhoos.com?subject=" .. title .. "&body=" .. mail_body)
-end
-
-function M.get_country_name(country_code)
-    local country_list = require("assets.code_to_country")
-    return country_list[string.upper(country_code)]
 end
 
 function M.version_compare(old_version, new_version)

@@ -1,0 +1,114 @@
+local utils = require("utils.utils")
+local PlayerType = utils.PlayerType
+local PlayState = utils.PlayState
+
+local NUM_PLAYERS = 2
+
+local background_color = {
+    vmath.vector4(0.4470588, 0.6164325, 1.0, 1),
+    vmath.vector4(1, 0.4470588, 0.4470588, 1),
+}
+
+local function change_turn(self, last_index)
+    self.turn = (self.turn % NUM_PLAYERS) + 1
+    go.set(self.background, "tint", background_color[self.turn])
+    msg.post(".", "reset_zoom")
+    msg.post("game:/board/board", "select_board", { index = last_index })
+    go.set(self.background, "tint", background_color[self.turn])
+end
+
+function init(self)
+    self.turn = 1
+    self.play_state = PlayState.FULLVIEW
+    self.background = "game:/background#sprite"
+    go.set(self.background, "tint", background_color[self.turn])
+    msg.post("game:/game_gui", "show_zoom_button")
+    msg.post("game:/board/board", "select_all")
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("on_touch") then
+        msg.post("game:/board/board", "on_touch",
+            { position = message.position, turn = self.turn, play_state = self.play_state })
+    end
+    if message_id == hash("change_turn") then
+        change_turn(self, message.last_index)
+    end
+    if message_id == hash("zoom_in") then
+        self.play_state = PlayState.ZOOMIN
+        msg.post("game:/camera_controller", "zoom_in", { target_position = message.target_position })
+    end
+    if message_id == hash("reset_zoom") then
+        self.play_state = PlayState.ZOOMOUT
+        msg.post("game:/camera_controller", "reset_zoom")
+    end
+    if message_id == hash("zoom_in_complete") then
+        self.play_state = PlayState.PLAY
+    end
+    if message_id == hash("zoom_out_complete") then
+        self.play_state = PlayState.FULLVIEW
+    end
+
+    if message_id == hash("on_game_end") then
+        if message.winner ~= utils.WinnerType.NONE then
+            self.play_state = PlayState.END
+            msg.post("game:/game_gui", "on_game_end", { winner = message.winner })
+        end
+    end
+
+    if message_id == hash("on_board_complete") then
+        local position = go.get_position(sender)
+        msg.post(".", "reset_zoom")
+        msg.post("game:/board/board", "board_complete", { winner = message.winner, position = position })
+        if message.winner ~= utils.WinnerType.TIE then
+            msg.post("shape_spawner", "spawn_shape", { shape = message.winner, position = position })
+        end
+        change_turn(self, message.last_index)
+    end
+end
+
+-- void CheckForWinner()
+-- {
+--     //Check if CROSS or circle won the match
+--     //Check rows
+--     for (int i = 0; i < 3; i++)
+--     {
+--         if (boards[i * 3].winner == boards[i * 3 + 1].winner && boards[i * 3 + 1].winner == boards[i * 3 + 2].winner)
+--         {
+--             if (boards[i * 3].winner == PlayerType.CROSS)
+--                 winner = PlayerType.CROSS;
+--             else if (boards[i * 3].winner == PlayerType.CIRCLE)
+--                 winner = PlayerType.CIRCLE;
+--         }
+--     }
+--     //Check columns
+--     for (int i = 0; i < 3; i++)
+--     {
+--         if (boards[i].winner == boards[i + 3].winner && boards[i + 3].winner == boards[i + 6].winner)
+--         {
+--             if (boards[i].winner == PlayerType.CROSS)
+--                 winner = PlayerType.CROSS;
+--             else if (boards[i].winner == PlayerType.CIRCLE)
+--                 winner = PlayerType.CIRCLE;
+--         }
+--     }
+
+--     //Check diagonals
+--     if (boards[0].winner == boards[4].winner && boards[4].winner == boards[8].winner)
+--     {
+--         if (boards[0].winner == PlayerType.CROSS)
+--             winner = PlayerType.CROSS;
+--         else if (boards[0].winner == PlayerType.CIRCLE)
+--             winner = PlayerType.CIRCLE;
+--     }
+
+--     //Check diagonals
+--     if (boards[2].winner == boards[4].winner && boards[4].winner == boards[6].winner)
+--     {
+--         if (boards[2].winner == PlayerType.CROSS)
+--             winner = PlayerType.CROSS;
+--         else if (boards[2].winner == PlayerType.CIRCLE)
+--             winner = PlayerType.CIRCLE;
+--     }
+
+-- }

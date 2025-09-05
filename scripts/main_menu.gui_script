@@ -1,5 +1,6 @@
 local druid = require("druid.druid")
 local game_card = require("gui.components.game_card")
+
 function init(self)
     msg.post(".", "acquire_input_focus")
     self.druid = druid.new(self)

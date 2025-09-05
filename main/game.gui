@@ -1,4 +1,8 @@
 script: "/scripts/game.gui_script"
+fonts {
+  name: "primary"
+  font: "/fonts/primary.font"
+}
 textures {
   name: "button"
   texture: "/atlas/button.atlas"
@@ -24,77 +28,60 @@ nodes {
     x: 720.0
     y: 1440.0
   }
-  color {
-    x: 0.447
-    y: 0.616
-  }
   type: TYPE_BOX
-  id: "background"
+  id: "end_game"
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "root"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
+  visible: false
 }
 nodes {
+  size {
+    x: 720.0
+    y: 1440.0
+  }
+  type: TYPE_BOX
+  id: "overlay"
+  adjust_mode: ADJUST_MODE_STRETCH
+  parent: "end_game"
+  inherit_alpha: true
+  alpha: 0.5
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    y: 436.0
+  }
+  scale {
+    x: 2.4
+    y: 2.4
+    z: 2.4
+  }
   size {
     x: 200.0
     y: 100.0
   }
-  type: TYPE_BOX
-  id: "main"
-  parent: "root"
+  type: TYPE_TEXT
+  text: "You Win"
+  font: "primary"
+  id: "win_text"
+  parent: "end_game"
   inherit_alpha: true
-  size_mode: SIZE_MODE_AUTO
-  visible: false
 }
 nodes {
-  type: TYPE_TEMPLATE
-  id: "board"
-  parent: "main"
-  inherit_alpha: true
-  template: "/gui/components/board.gui"
-}
-nodes {
-  type: TYPE_BOX
-  id: "board/root"
-  parent: "board"
-  template_node_child: true
-}
-nodes {
-  type: TYPE_BOX
-  id: "board/line"
-  parent: "board/root"
-  template_node_child: true
-}
-nodes {
-  type: TYPE_BOX
-  id: "board/line1"
-  parent: "board/root"
-  template_node_child: true
-}
-nodes {
-  type: TYPE_BOX
-  id: "board/line2"
-  parent: "board/root"
-  template_node_child: true
-}
-nodes {
-  type: TYPE_BOX
-  id: "board/line3"
-  parent: "board/root"
-  template_node_child: true
-}
-nodes {
+  position {
+    y: -506.0
+  }
   size {
-    x: 200.0
-    y: 100.0
+    x: 150.0
+    y: 150.0
   }
   type: TYPE_BOX
-  id: "end_game"
-  parent: "root"
+  texture: "button/Replay"
+  id: "replay_button"
+  parent: "end_game"
   inherit_alpha: true
-  size_mode: SIZE_MODE_AUTO
-  visible: false
 }
 nodes {
   position {
@@ -115,7 +102,7 @@ nodes {
 }
 nodes {
   position {
-    x: -246.0
+    x: -250.0
     y: -110.0
   }
   size {
@@ -128,6 +115,23 @@ nodes {
   xanchor: XANCHOR_LEFT
   parent: "top_anchor"
   inherit_alpha: true
+}
+nodes {
+  position {
+    x: 250.0
+    y: -110.0
+  }
+  size {
+    x: 80.0
+    y: 80.0
+  }
+  type: TYPE_BOX
+  texture: "button/Zoom_Out"
+  id: "zoom_out"
+  xanchor: XANCHOR_LEFT
+  parent: "top_anchor"
+  inherit_alpha: true
+  enabled: false
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

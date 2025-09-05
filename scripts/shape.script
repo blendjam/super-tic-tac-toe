@@ -1,0 +1,11 @@
+function init(self)
+	go.set("#sprite", "scale", vmath.vector3(0, 0, 1))
+	go.animate("#sprite", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1), go.EASING_OUTBACK, 0.3)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("shape_spawn") then
+		AudioManager:play_oneshot(string.lower(message.shape) .. "_draw")
+		sprite.play_flipbook("#sprite", string.lower(message.shape))
+	end
+end

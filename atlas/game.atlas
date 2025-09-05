@@ -1,7 +1,7 @@
 images {
-  image: "/textures/shapes/Circle.png"
+  image: "/textures/shapes/circle.png"
 }
 images {
-  image: "/textures/shapes/Cross.png"
+  image: "/textures/shapes/cross.png"
 }
 extrude_borders: 2

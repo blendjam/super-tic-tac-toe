@@ -1,7 +1,62 @@
 name: "board"
 scale_along_z: 0
 embedded_instances {
+  id: "board"
+  children: "line"
+  children: "line1"
+  children: "line2"
+  children: "line3"
+  children: "line4"
+  data: "components {\n"
+  "  id: \"board\"\n"
+  "  component: \"/scripts/board.script\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"board_area\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 600.0\\n"
+  "  y: 600.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "offset: 0.3\\n"
+  "playback_rate: 0.0\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
   id: "line"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 20.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  scale3 {
+    x: 1.0E-6
+    y: 1.0E-6
+  }
+}
+embedded_instances {
+  id: "line1"
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
@@ -16,6 +71,100 @@ embedded_instances {
   "  sampler: \\\"texture_sampler\\\"\\n"
   "  texture: \\\"/atlas/main.atlas\\\"\\n"
   "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    x: 100.0
+  }
+  rotation {
+    z: 0.70710677
+    w: 0.70710677
+  }
+}
+embedded_instances {
+  id: "line2"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 30.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    x: -100.0
+  }
+  rotation {
+    z: 0.70710677
+    w: 0.70710677
+  }
+}
+embedded_instances {
+  id: "line3"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 30.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    y: -100.0
+  }
+}
+embedded_instances {
+  id: "line4"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"1x1\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 580.0\\n"
+  "  y: 30.0\\n"
+  "}\\n"
+  "size_mode: SIZE_MODE_MANUAL\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/atlas/main.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    y: 100.0
+  }
+}
+embedded_instances {
+  id: "shape_spawner"
+  data: "components {\n"
+  "  id: \"shape_spawner\"\n"
+  "  component: \"/scripts/shape_spawner.script\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"shape_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/prefabs/shape.go\\\"\\n"
   "\"\n"
   "}\n"
   ""

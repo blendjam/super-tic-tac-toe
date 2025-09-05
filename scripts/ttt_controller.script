@@ -1,27 +1,55 @@
-local PlayState = {
-	"ZOOMOUT",
-	"ZOOMIN",
-	"FULLVIEW",
-	"PLAY",
-	"END"
-}
+local utils = require("utils.utils")
+
 local NUM_PLAYERS = 2
-function init(self)
-	self.player_turn = 1
-	self.play_state = PlayState.FULLVIEW
-	self.board = nil
-end
 
-local function draw_final_line()
-
-end
-local function on_end_game(self, winner)
-	self.play_state = PlayState.END
-	draw_final_line()
-	msg.post("game:/game_gui", "on_end_game")
-end
+local background_color = {
+	vmath.vector4(0.44, 0.61, 1, 1),
+	vmath.vector4(1, 0.44, 0.44, 1),
+}
 
 local function change_turn(self)
-	self.player_turn = (self.player_turn % NUM_PLAYERS) + 1
-	msg.post("game:/game_gui", "on_change_turn", { player_turn = self.player_turn })
+	self.turn = (self.turn % NUM_PLAYERS) + 1
+	go.set(self.background, "tint", background_color[self.turn])
+end
+
+function init(self)
+	self.turn = 2
+	self.play_state = utils.PlayState.FULLVIEW
+	self.board = nil
+	self.background = msg.url(nil, "background", "sprite")
+	change_turn(self)
+end
+
+local function draw_final_line(self, winning_line)
+	local final_line    = "/board/line"
+	local p1            = winning_line.p1
+	local p2            = winning_line.p2
+	local line_rotation = math.atan2(p2.y - p1.y, p2.x - p1.x)
+	local median_point  = vmath.vector3((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, 3)
+	go.set(final_line, "rotation", vmath.quat_rotation_z(line_rotation))
+	go.set(final_line, "position", median_point)
+	go.animate(final_line, "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1), gui.EASING_OUTBACK, 0.3)
+	AudioManager:play_oneshot("pen_stroke")
+end
+
+local function on_game_end(self, winner)
+	self.play_state = utils.PlayState.END
+	msg.post("game:/game_gui", "on_game_end", { winner = winner })
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("on_touch") then
+		msg.post("game:/board/board", "on_touch",
+			{ position = message.position, turn = self.turn, play_state = utils.PlayState.PLAY })
+	end
+	if message_id == hash("change_turn") then
+		change_turn(self)
+	end
+	if message_id == hash("on_board_complete") then
+		on_game_end(self, message.winner)
+		if message.winning_line then
+			draw_final_line(self, message.winning_line)
+		end
+	end
 end

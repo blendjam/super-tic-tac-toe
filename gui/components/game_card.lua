@@ -2,9 +2,9 @@
 local M = {}
 
 local card_type = {
-    { name = "Normal Mode", image = "Normal_Mode" },
-    { name = "Super Mode",  image = "Super_Mode" },
-    { name = "Grid Mode",   image = "Grid_Mode" }
+    { name = "Normal Mode", image = "Normal_Mode", level_name = hash("normal_mode") },
+    { name = "Super Mode",  image = "Super_Mode",  level_name = hash("super_mode") },
+    { name = "Grid Mode",   image = "Grid_Mode",   level_name = hash("grid_mode") }
 }
 
 function M:init(card_id)
@@ -16,7 +16,7 @@ function M:init(card_id)
     gui.set_text(self.text, card_type[self.card_id].name)
     self.button = self.druid:new_button(self.card_bg, function()
         pprint("SELECTED", card_id)
-        LevelController:load_level(LevelController.Levels.game, { roomType = card_type[self.card_id].name }, true)
+        LevelController:load_level(card_type[card_id].level_name, { roomType = card_type[self.card_id].name }, true)
     end)
 end
 

@@ -1,5 +1,6 @@
 [bootstrap]
 main_collection = /main/main.collectionc
+render = /render/game.renderc
 
 [script]
 shared_state = 1
@@ -18,7 +19,7 @@ scale_mode = stretch
 [project]
 title = SuperTicTacToe
 dependencies#0 = https://github.com/Insality/druid/archive/refs/tags/1.1.5.zip
-dependencies#1 = https://github.com/Insality/defold-event/archive/refs/tags/12.zip 
+dependencies#1 = https://github.com/Insality/defold-event/archive/refs/tags/12.zip
 
 [render]
 clear_color_red = 1.0

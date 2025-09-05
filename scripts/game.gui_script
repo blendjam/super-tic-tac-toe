@@ -1,41 +1,78 @@
+local utils = require("utils.utils")
+local druid = require("druid.druid")
+
+local draw_color = vmath.vector4(0.5, 0.5, 0.5, 0.8)
+
+local background_color = {
+	[utils.WinnerType.CROSS] = vmath.vector4(1, 0.4470588, 0.4470588, 0.8),
+	[utils.WinnerType.CIRCLE] = vmath.vector4(0.4470588, 0.6164325, 1.0, 0.8),
+}
+
+local game_mode = hash("normal_mode")
+
 function init(self)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
+	msg.post(".", "acquire_input_focus")
+	self.druid = druid.new(self)
+	self.home_button = self.druid:new_button("home_button", function()
+		LevelController:load_level(LevelController.Levels.main_menu, nil, true)
+	end)
+	self.end_game = gui.get_node("end_game")
+	self.end_game_overlay = gui.get_node("overlay")
+	gui.set_enabled(self.end_game, false)
 end
 
 function on_input(self, action_id, action)
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
+	if self.druid:on_input(action_id, action) then
+		return true
+	end
+	if action_id == hash("touch") and action.pressed and gui.is_enabled(self.end_game) then
+		return true
+	end
 end
 
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
+function on_message(self, message_id, message, sender)
+	self.druid:on_message(message_id, message, sender)
+
+	if message_id == hash("show_zoom_button") then
+		self.zoom_button = self.druid:new_button("zoom_out", function()
+			msg.post("game:/game_controller", "reset_zoom")
+		end)
+		gui.set_enabled(self.zoom_button.node, true)
+	end
+
+	if message_id == hash("on_game_end") then
+		self.replay_button = self.druid:new_button("replay_button", function()
+			LevelController:restart_level(game_mode, nil, true)
+		end)
+		gui.set_enabled(self.end_game, true)
+		gui.set(self.end_game, "color.w", 0)
+		gui.animate(self.end_game, "color.w", 1, gui.EASING_LINEAR, 0.3)
+
+		local win_text = gui.get_node("win_text")
+		gui.set(win_text, "scale", vmath.vector3(0, 0, 1))
+		gui.animate(win_text, "scale", vmath.vector3(2.3), gui.EASING_OUTBACK, 0.3)
+
+		gui.set(self.replay_button.node, "scale", vmath.vector3(0, 0, 1))
+		gui.animate(self.replay_button.node, "scale", vmath.vector3(1), gui.EASING_OUTBACK, 0.3, 0.2)
+
+		if message.winner == utils.WinnerType.TIE then
+			gui.set(self.end_game_overlay, "color", draw_color)
+			gui.set_text(win_text, "It's a Draw!")
+			AudioManager:play_oneshot("tie")
+		else
+			pprint("WINNER IS ", message.winner, background_color)
+			pprint("WINNER", message.winner, background_color)
+			gui.set(self.end_game_overlay, "color", background_color[message.winner])
+			gui.set_text(win_text, message.winner .. " Wins!")
+			AudioManager:play_oneshot("win")
+		end
+	end
+end
+
+function update(self, dt)
+	self.druid:update(dt)
+end
+
+function final(self)
+	self.druid:final()
 end

@@ -1,0 +1,47 @@
+local CameraState = {
+    STATIC = "STATIC",
+    ZOOMIN = "ZOOMIN",
+    ZOOMOUT = "ZOOMOUT",
+    FULLVIEW = "FULLVIEW",
+}
+function init(self)
+    self.camera_state = CameraState.ZOOMOUT
+    self.current_zoom = 1
+    self.target_zoom = 1
+    self.current_position = vmath.vector3()
+    self.target_position = vmath.vector3()
+end
+
+function fixed_update(self, dt)
+    if self.camera_state == CameraState.ZOOMIN or self.camera_state == CameraState.ZOOMOUT then
+        self.current_zoom = vmath.lerp(0.12, self.current_zoom, self.target_zoom)
+        self.current_position = vmath.lerp(0.15, self.current_position, self.target_position)
+        msg.post("@render:", "set_camera_zoom", { zoom = self.current_zoom })
+        msg.post("@render:", "translate_camera", { x = self.current_position.x, y = self.current_position.y })
+
+        if math.abs(self.current_zoom - self.target_zoom) < 0.05 then
+            if self.camera_state == CameraState.ZOOMIN then
+                msg.post("game:/game_controller", "zoom_in_complete")
+            else
+                msg.post("game:/game_controller", "zoom_out_complete")
+            end
+            self.current_zoom = self.target_zoom
+            self.current_position = self.target_position
+            self.camera_state = CameraState.STATIC
+        end
+    elseif self.camera_state == CameraState.ZOOMOUT then
+    end
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("zoom_in") then
+        self.camera_state = CameraState.ZOOMIN
+        self.target_zoom = 2.2
+        self.target_position = message.target_position
+    elseif message_id == hash("reset_zoom") then
+        AudioManager:play_oneshot("zoom_out")
+        self.camera_state = CameraState.ZOOMOUT
+        self.target_zoom = 1
+        self.target_position = vmath.vector3(0)
+    end
+end

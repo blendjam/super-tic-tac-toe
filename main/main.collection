@@ -3,6 +3,10 @@ instances {
   id: "level_controller"
   prototype: "/levels/level_controller.go"
 }
+instances {
+  id: "audio_manager"
+  prototype: "/prefabs/audio_manager.go"
+}
 scale_along_z: 0
 embedded_instances {
   id: "transition"

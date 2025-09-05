@@ -29,9 +29,9 @@ end
 
 function M:init()
     self.url = msg.url();
+    msg.post("@render:", "use_fixed_fit_projection", { near = -10, far = 10 })
     window.set_dim_mode(window.DIMMING_OFF);
     msg.post(".", "acquire_input_focus")
-    msg.post("@render:", "use_fixed_fit_projection", { near = -10, far = 10 })
     self.current_level = nil
     self.previous_level = nil
     for key, value in pairs(self.Levels) do

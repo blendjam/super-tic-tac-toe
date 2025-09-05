@@ -1,0 +1,56 @@
+AudioManager = require("modules.audio_manager")
+function init(self)
+	self.fading = nil
+	AudioManager:init()
+end
+
+function fixed_update(self, dt)
+	if self.fading == nil then return end
+
+	local gain = go.get(self.fading.sound, "gain")
+	gain = gain - dt / self.fading.duration
+	if gain <= 0 then
+		gain = 0
+		sound.stop(self.fading.sound)
+		self.fading = nil
+	else
+		go.set(self.fading.sound, "gain", gain)
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	local sound_name = message.sound or "empty"
+	if message_id == hash("play_oneshot") then
+		sound.play("#" .. sound_name, message.props, function()
+			-- if (go.exists(sender)) then
+			-- 	msg.post(sender, "sound_played")
+			-- end
+		end)
+	end
+
+	if message_id == hash("play_music") then
+		local initial_gain = go.get("#" .. message.sound, "gain")
+
+		if self.fading and self.fading.sound == "#" .. message.sound then
+			self.fading = nil
+			go.set("#" .. message.sound, "gain", message.props.gain)
+			return
+		end
+
+		if message.props and message.props.gain then
+			go.set("#" .. message.sound, "gain", message.props.gain)
+			message.props.gain = nil
+		end
+
+		sound.play("#" .. message.sound, message.props, function()
+			-- if (go.exists(sender)) then
+			-- 	msg.post(sender, "sound_played")
+			-- end
+			go.set("#" .. message.sound, "gain", initial_gain)
+		end)
+	end
+
+	if message_id == hash("fade_out") then
+		self.fading = { sound = "#" .. message.sound, duration = message.duration }
+	end
+end
