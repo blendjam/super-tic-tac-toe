@@ -20,6 +20,7 @@ function init(self)
     self.board_size = go.get("#board_area", "size") * self.board_scale
     self.winning_line = { p1 = { i = 0, j = 0 }, p2 = { i = 0, j = 0 } }
     self.winner = utils.WinnerType.NONE
+    self.selected = true
     -- AudioManager
 end
 
@@ -83,7 +84,7 @@ local function is_board_full(self)
 end
 
 local function on_board_touch(self, touch_position, turn, play_state)
-    if play_state ~= utils.PlayState.PLAY then return end
+    if play_state ~= utils.PlayState.PLAY or not self.selected then return end
     touch_position = utils.screen_to_world(touch_position)
     if not is_touching_board(self, touch_position) then return end
 
@@ -135,6 +136,7 @@ local function on_board_touch(self, touch_position, turn, play_state)
 end
 
 local function set_selected(self, selected)
+    self.selected = selected
     if self.winner ~= utils.WinnerType.NONE then
         set_line_color(vmath.vector4(0.5, 0.5, 0.5, 1))
         return

@@ -12,3 +12,7 @@ builtins
 /.defold
 /.vscode
 debugger
+debug.keystore
+debug.keystore.pass.txt
+manifest.private.der
+manifest.public.der

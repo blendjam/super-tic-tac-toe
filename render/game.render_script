@@ -35,10 +35,6 @@ local DEFAULT_ZOOM = 1
 
 local config = require("utils.utils")
 
-local function set_camera_zoom(camera, zoom)
-    camera.extra_zoom = zoom;
-end
-
 --
 -- projection that centers content with maintained aspect ratio and optional zoom
 --
@@ -57,16 +53,17 @@ end
 -- projection that centers and fits content with maintained aspect ratio
 --
 local function get_fixed_fit_projection(camera, state)
-    -- figure out zoom so we fit inside the window
     local base_zoom = math.min(state.window_width / state.width, state.window_height / state.height)
-    camera.zoom     = base_zoom * (camera.extra_zoom or 1)
-    local hw        = state.window_width * 0.5 / camera.zoom
-    local hh        = state.window_height * 0.5 / camera.zoom
-    local left      = -hw
-    local right     = hw
-    local bottom    = -hh
-    local top       = hh
-    return vmath.matrix4_orthographic(left, right, bottom, top, camera.near, camera.far)
+    camera.zoom = base_zoom * (camera.extra_zoom or 1)
+    return get_fixed_projection(camera, state)
+    -- camera.zoom     = base_zoom * (camera.extra_zoom or 1)
+    -- local hw        = state.window_width * 0.5 / camera.zoom
+    -- local hh        = state.window_height * 0.5 / camera.zoom
+    -- local left      = -hw
+    -- local right     = hw
+    -- local bottom    = -hh
+    -- local top       = hh
+    -- return vmath.matrix4_orthographic(left, right, bottom, top, camera.near, camera.far)
 end
 --
 -- projection that rotates the camera
@@ -279,8 +276,7 @@ function on_message(self, message_id, message)
     elseif message_id == MSG_TRANSLATE_CAMERA then
         translate_camera(camera, message.x, message.y, state)
     elseif message_id == MSG_SET_CAMERA_ZOOM then
-        local c = math.min(state.window_width / state.width, state.window_height / state.height)
-        camera.extra_zoom = c * (message.zoom > 0.1 and message.zoom or 0.1);
+        camera.extra_zoom = message.zoom or 0.1
         camera.projection_fn = get_fixed_fit_projection;
         update_camera(camera, state)
     end

@@ -4,6 +4,9 @@ local CameraState = {
     ZOOMOUT = "ZOOMOUT",
     FULLVIEW = "FULLVIEW",
 }
+
+local MAX_ZOOM = 3
+
 function init(self)
     self.camera_state = CameraState.ZOOMOUT
     self.current_zoom = 1
@@ -36,7 +39,7 @@ end
 function on_message(self, message_id, message, sender)
     if message_id == hash("zoom_in") then
         self.camera_state = CameraState.ZOOMIN
-        self.target_zoom = 2.2
+        self.target_zoom = MAX_ZOOM
         self.target_position = message.target_position
     elseif message_id == hash("reset_zoom") then
         AudioManager:play_oneshot("zoom_out")

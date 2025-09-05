@@ -29,7 +29,6 @@ end
 
 function M:init()
     self.url = msg.url();
-    msg.post("@render:", "use_fixed_fit_projection", { near = -10, far = 10 })
     window.set_dim_mode(window.DIMMING_OFF);
     msg.post(".", "acquire_input_focus")
     self.current_level = nil
