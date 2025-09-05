@@ -14,7 +14,7 @@ end
 
 function init(self)
 	self.turn = 2
-	self.play_state = utils.PlayState.FULLVIEW
+	self.play_state = utils.PlayState.PLAY
 	self.board = nil
 	self.background = msg.url(nil, "background", "sprite")
 	change_turn(self)

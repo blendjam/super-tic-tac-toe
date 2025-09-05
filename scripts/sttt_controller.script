@@ -44,9 +44,11 @@ function on_message(self, message_id, message, sender)
     end
     if message_id == hash("zoom_in_complete") then
         self.play_state = PlayState.PLAY
+        msg.post("game:/game_gui", "enable_zoom_button")
     end
     if message_id == hash("zoom_out_complete") then
         self.play_state = PlayState.FULLVIEW
+        msg.post("game:/game_gui", "disable_zoom_button")
     end
 
     if message_id == hash("on_game_end") then

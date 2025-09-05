@@ -43,7 +43,6 @@ local function get_board_index(self, world_position)
 		j = 3
 	end
 
-	-- Calculate row (i), invert y for top-left origin
 	local i
 	if world_position.y > board_origin.y + line_offset then
 		i = 1
@@ -58,7 +57,7 @@ end
 
 local function get_position_from_index(self, index)
 	local cell_size = self.board_size.x / (3 * self.board_scale)
-	return vmath.vector3((index.j - 2) * cell_size, (index.i - 2) * cell_size, 0)
+	return vmath.vector3((index.j - 2) * cell_size, (2 - index.i) * cell_size, 0)
 end
 
 local function check_winner(self)
@@ -144,10 +143,12 @@ local function on_board_touch(self, touch_position, turn, play_state)
 end
 
 local function draw_final_line(self)
-	local final_line    = "/board/line"
-	local p1            = get_position_from_index(self, self.winning_line.p1)
-	local p2            = get_position_from_index(self, self.winning_line.p2)
-	local line_rotation = math.atan2(p2.y - p1.y, p2.x - p1.x)
+	local final_line = "/board/line"
+	pprint("FINAL INDEX", self.winning_line)
+	local p1 = get_position_from_index(self, self.winning_line.p1)
+	local p2 = get_position_from_index(self, self.winning_line.p2)
+	pprint("FINAL LINE ", p1, p2)
+	local line_rotation = math.atan2(p1.y - p2.y, p1.x - p2.x)
 	local median_point  = vmath.vector3((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, 3)
 	go.set(final_line, "rotation", vmath.quat_rotation_z(line_rotation))
 	go.set(final_line, "position", median_point)

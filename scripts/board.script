@@ -8,12 +8,13 @@ local function set_line_color(color)
 end
 function init(self)
     set_line_color(vmath.vector4(0, 0, 0, 1))
-    self.board = {
-        { "", "", "" },
-        { "", "", "" },
-        { "", "", "" },
-        { "", "", "" }
-    }
+    self.board = {}
+    for i = 1, 3 do
+        self.board[i] = {}
+        for j = 1, 3 do
+            self.board[i][j] = nil
+        end
+    end
     go.set("#board_area", "tint.w", 0)
     self.board_scale = go.get_scale().x
     self.board_size = go.get("#board_area", "size") * self.board_scale
@@ -24,7 +25,7 @@ end
 
 local function get_position_from_index(self, index)
     local cell_size = self.board_size.x / (3 * self.board_scale)
-    return vmath.vector3((index.j - 2) * cell_size, (index.i - 2) * cell_size, 0)
+    return vmath.vector3((index.j - 2) * cell_size, (2 - index.i) * cell_size, 0)
 end
 
 local function is_touching_board(self, touch_position)
@@ -36,8 +37,8 @@ end
 
 local function check_winner(self)
     for i = 1, 3 do
-        if self.board[i][1] ~= "" and self.board[i][1] == self.board[i][2] and self.board[i][1] == self.board[i][3] then
-            self.winner = utils.PlayerType[self.board[i][1]]
+        if self.board[i][1] ~= nil and self.board[i][1] == self.board[i][2] and self.board[i][1] == self.board[i][3] then
+            self.winner = self.board[i][1]
             self.winning_line.p1 = { i = i, j = 1 }
             self.winning_line.p2 = { i = i, j = 3 }
             return true
@@ -45,23 +46,23 @@ local function check_winner(self)
     end
 
     for j = 1, 3 do
-        if self.board[1][j] ~= "" and self.board[1][j] == self.board[2][j] and self.board[1][j] == self.board[3][j] then
-            self.winner = utils.PlayerType[self.board[1][j]]
+        if self.board[1][j] ~= nil and self.board[1][j] == self.board[2][j] and self.board[1][j] == self.board[3][j] then
+            self.winner = self.board[1][j]
             self.winning_line.p1 = { i = 1, j = j }
             self.winning_line.p2 = { i = 3, j = j }
             return true
         end
     end
 
-    if self.board[1][1] ~= "" and self.board[1][1] == self.board[2][2] and self.board[1][1] == self.board[3][3] then
-        self.winner = utils.PlayerType[self.board[1][1]]
+    if self.board[1][1] ~= nil and self.board[1][1] == self.board[2][2] and self.board[1][1] == self.board[3][3] then
+        self.winner = self.board[1][1]
         self.winning_line.p1 = { i = 1, j = 1 }
         self.winning_line.p2 = { i = 3, j = 3 }
         return true
     end
 
-    if self.board[1][3] ~= "" and self.board[1][3] == self.board[2][2] and self.board[1][3] == self.board[3][1] then
-        self.winner = utils.PlayerType[self.board[1][3]]
+    if self.board[1][3] ~= nil and self.board[1][3] == self.board[2][2] and self.board[1][3] == self.board[3][1] then
+        self.winner = self.board[1][3]
         self.winning_line.p1 = { i = 1, j = 3 }
         self.winning_line.p2 = { i = 3, j = 1 }
         return true
@@ -73,7 +74,7 @@ end
 local function is_board_full(self)
     for i = 1, 3 do
         for j = 1, 3 do
-            if self.board[i][j] == "" then
+            if self.board[i][j] == nil then
                 return false
             end
         end
@@ -102,27 +103,29 @@ local function on_board_touch(self, touch_position, turn, play_state)
         i = -1
     end
 
-    if self.board[i + 2][j + 2] == "" then
+    if self.board[2 - i][j + 2] == nil then
         local x_pos = go.get_position().x + j * offset * 2
         local y_pos = go.get_position().y + i * offset * 2
         if turn == 1 then
-            self.board[i + 2][j + 2] = utils.PlayerType.CIRCLE
+            self.board[2 - i][j + 2] = utils.PlayerType.CIRCLE
             msg.post("shape_spawner", "spawn_shape",
                 { shape = "circle", position = vmath.vector3(x_pos, y_pos, 0) })
         else
-            self.board[i + 2][j + 2] = utils.PlayerType.CROSS
+            self.board[2 - i][j + 2] = utils.PlayerType.CROSS
             msg.post("shape_spawner", "spawn_shape",
                 { shape = "cross", position = vmath.vector3(x_pos, y_pos, 0) })
         end
 
         if check_winner(self) then
+            pprint("WINNING LINE", self.winning_line)
             self.winning_line.p1 = get_position_from_index(self, self.winning_line.p1)
             self.winning_line.p2 = get_position_from_index(self, self.winning_line.p2)
-            set_line_color(vmath.vector4(0.7, 0.7, 0.7, 1))
+            pprint("WINNING LINE Affter", self.winning_line)
+            set_line_color(vmath.vector4(0.3, 0.3, 0.3, 1))
             msg.post("game:/game_controller", "on_board_complete",
                 { winner = self.winner, winning_line = self.winning_line, last_index = { 2 - i, j + 2 } })
         elseif is_board_full(self) then
-            set_line_color(vmath.vector4(0.7, 0.7, 0.7, 1))
+            set_line_color(vmath.vector4(0.3, 0.3, 0.3, 1))
             msg.post("game:/game_controller", "on_board_complete",
                 { winner = utils.WinnerType.TIE, last_index = { 2 - i, j + 2 } })
         else

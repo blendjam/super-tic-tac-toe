@@ -26,3 +26,6 @@ clear_color_red = 1.0
 clear_color_green = 1.0
 clear_color_blue = 1.0
 
+[sprite]
+max_count = 256
+

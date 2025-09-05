@@ -40,6 +40,16 @@ function on_message(self, message_id, message, sender)
 		gui.set_enabled(self.zoom_button.node, true)
 	end
 
+	if message_id == hash("disable_zoom_button") then
+		self.zoom_button:set_enabled(false)
+		gui.play_flipbook(self.zoom_button.node, "Full Screen Disabled")
+	end
+
+	if message_id == hash("enable_zoom_button") then
+		self.zoom_button:set_enabled(true)
+		gui.play_flipbook(self.zoom_button.node, "Zoom_Out")
+	end
+
 	if message_id == hash("on_game_end") then
 		self.replay_button = self.druid:new_button("replay_button", function()
 			LevelController:restart_level(game_mode, nil, true)
@@ -60,8 +70,6 @@ function on_message(self, message_id, message, sender)
 			gui.set_text(win_text, "It's a Draw!")
 			AudioManager:play_oneshot("tie")
 		else
-			pprint("WINNER IS ", message.winner, background_color)
-			pprint("WINNER", message.winner, background_color)
 			gui.set(self.end_game_overlay, "color", background_color[message.winner])
 			gui.set_text(win_text, message.winner .. " Wins!")
 			AudioManager:play_oneshot("win")

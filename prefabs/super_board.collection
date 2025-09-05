@@ -213,8 +213,8 @@ embedded_instances {
   "  data: \"default_animation: \\\"1x1\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "size {\\n"
-  "  x: 580.0\\n"
-  "  y: 580.0\\n"
+  "  x: 600.0\\n"
+  "  y: 600.0\\n"
   "}\\n"
   "size_mode: SIZE_MODE_MANUAL\\n"
   "textures {\\n"
@@ -234,7 +234,7 @@ embedded_instances {
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "size {\\n"
   "  x: 580.0\\n"
-  "  y: 15.0\\n"
+  "  y: 20.0\\n"
   "}\\n"
   "size_mode: SIZE_MODE_MANUAL\\n"
   "textures {\\n"
@@ -247,6 +247,5 @@ embedded_instances {
   scale3 {
     x: 1.0E-6
     y: 1.0E-6
-    z: 1.0E-6
   }
 }
