@@ -24,7 +24,13 @@ function init(self)
 	for i = 1, 3 do
 		self.boards[i] = {}
 		for j = 1, 3 do
-			self.boards[i][j] = { selected = false, completed = false, winner = utils.WinnerType.NONE }
+			self.boards[i][j] = {
+				url = "board" .. i .. j .. "/board",
+				selected = false,
+				completed = false,
+				winner =
+					utils.WinnerType.NONE
+			}
 		end
 	end
 end
@@ -127,13 +133,23 @@ local function check_board_full(self)
 	end
 end
 
+local function is_touching_child_board(self, touch_position)
+	local child_pos = get_board_position(utils.screen_to_world(touch_position))
+	local board_position = go.get_position()
+	local board_size = self.board_size.x / 2
+	return touch_position.x >= board_position.x - board_size and touch_position.x <= board_position.x + board_size
+		and touch_position.y >= board_position.y - board_size and touch_position.y <= board_position.y + board_size
+end
+
 local function on_board_touch(self, touch_position, turn, play_state)
 	local world_pos = utils.screen_to_world(touch_position)
+	if play_state == utils.PlayState.PLAY then
+		msg.post("game:/game_controller", "reset_zoom")
+	end
 	if not is_touching_board(self, world_pos) then return end
 	if play_state == utils.PlayState.PLAY then
 		local i, j = get_board_index(self, world_pos)
-		local board = "board" .. i .. j .. "/board"
-		msg.post(board, "on_touch", { position = touch_position, turn = turn, play_state = play_state })
+		msg.post(self.boards[i][j].url, "on_touch", { position = touch_position, turn = turn, play_state = play_state })
 	elseif play_state == utils.PlayState.FULLVIEW then
 		local i, j = get_board_index(self, world_pos)
 		if self.boards[i][j].selected and not self.boards[i][j].completed then
@@ -143,11 +159,9 @@ local function on_board_touch(self, touch_position, turn, play_state)
 end
 
 local function draw_final_line(self)
-	local final_line = "/board/line"
-	pprint("FINAL INDEX", self.winning_line)
-	local p1 = get_position_from_index(self, self.winning_line.p1)
-	local p2 = get_position_from_index(self, self.winning_line.p2)
-	pprint("FINAL LINE ", p1, p2)
+	local final_line    = "/board/line"
+	local p1            = get_position_from_index(self, self.winning_line.p1)
+	local p2            = get_position_from_index(self, self.winning_line.p2)
 	local line_rotation = math.atan2(p1.y - p2.y, p1.x - p2.x)
 	local median_point  = vmath.vector3((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, 3)
 	go.set(final_line, "rotation", vmath.quat_rotation_z(line_rotation))
@@ -177,7 +191,7 @@ function on_message(self, message_id, message, sender)
 		for i = 1, 3 do
 			for j = 1, 3 do
 				if not self.boards[i][j].completed then
-					msg.post("board" .. i .. j .. "/board", "set_selected", { selected = true })
+					msg.post(self.boards[i][j].url, "set_selected", { selected = true })
 					self.boards[i][j].selected = true
 				end
 			end
@@ -188,15 +202,14 @@ function on_message(self, message_id, message, sender)
 		if message.index == nil then return end
 		for i = 1, 3 do
 			for j = 1, 3 do
-				local board = "board" .. i .. j .. "/board"
-				msg.post(board, "set_selected", { selected = false })
+				msg.post(self.boards[i][j].url, "set_selected", { selected = false })
 				self.boards[i][j].selected = false
 			end
 		end
-		local board = "board" .. message.index[1] .. message.index[2] .. "/board"
-		self.boards[message.index[1]][message.index[2]].selected = true
-		msg.post(board, "set_selected", { selected = true })
-		if self.boards[message.index[1]][message.index[2]].completed then
+		local board = self.boards[message.index[1]][message.index[2]]
+		board.selected = true
+		msg.post(board.url, "set_selected", { selected = true })
+		if board.completed then
 			msg.post(".", "select_all")
 		end
 	end

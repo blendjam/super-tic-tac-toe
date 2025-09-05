@@ -12,7 +12,7 @@ local background_color = {
 local function change_turn(self, last_index)
     self.turn = (self.turn % NUM_PLAYERS) + 1
     go.set(self.background, "tint", background_color[self.turn])
-    msg.post(".", "reset_zoom")
+    -- msg.post(".", "reset_zoom")
     msg.post("game:/board/board", "select_board", { index = last_index })
     go.set(self.background, "tint", background_color[self.turn])
 end
@@ -60,7 +60,7 @@ function on_message(self, message_id, message, sender)
 
     if message_id == hash("on_board_complete") then
         local position = go.get_position(sender)
-        msg.post(".", "reset_zoom")
+        -- msg.post(".", "reset_zoom")
         msg.post("game:/board/board", "board_complete", { winner = message.winner, position = position })
         if message.winner ~= utils.WinnerType.TIE then
             msg.post("shape_spawner", "spawn_shape", { shape = message.winner, position = position })
