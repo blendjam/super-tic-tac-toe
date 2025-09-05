@@ -5,12 +5,12 @@ fonts {
 }
 nodes {
   position {
-    x: 360.0
-    y: 720.0
+    x: 720.0
+    y: 360.0
   }
   size {
-    x: 720.0
-    y: 1440.0
+    x: 1440.0
+    y: 720.0
   }
   type: TYPE_BOX
   id: "root"
@@ -21,7 +21,7 @@ nodes {
 }
 nodes {
   position {
-    y: 720.0
+    y: 360.0
   }
   size {
     x: 200.0
@@ -37,7 +37,78 @@ nodes {
 }
 nodes {
   position {
-    y: -158.0
+    y: 56.0
+  }
+  scale {
+    x: 2.308529
+    y: 1.7812
+    z: 1.7812
+  }
+  type: TYPE_PARTICLEFX
+  id: "shape_loop"
+  parent: "top_anchor"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  particlefx: "shape_loop"
+}
+nodes {
+  position {
+    y: -241.0
+  }
+  scale {
+    x: 13.7256
+    y: 13.7256
+    z: 13.7256
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "smokes"
+  parent: "top_anchor"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  rotation {
+    z: 180.0
+  }
+  type: TYPE_PARTICLEFX
+  id: "impact2"
+  parent: "smokes"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  particlefx: "impact"
+}
+nodes {
+  type: TYPE_PARTICLEFX
+  id: "impact1"
+  parent: "smokes"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  particlefx: "impact"
+}
+nodes {
+  position {
+    y: 53.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "title_anchor"
+  pivot: PIVOT_S
+  parent: "top_anchor"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    y: 104.0
   }
   scale {
     x: 2.0
@@ -57,17 +128,17 @@ nodes {
   "TIC TAC TOE"
   font: "primary"
   id: "title"
-  parent: "top_anchor"
+  parent: "title_anchor"
   inherit_alpha: true
   text_leading: 1.2
 }
 nodes {
   position {
-    y: 416.0
+    y: 51.0
   }
   size {
-    x: 720.0
-    y: 1139.0
+    x: 1440.0
+    y: 1440.0
   }
   type: TYPE_BOX
   id: "scroll_container"
@@ -79,8 +150,8 @@ nodes {
 }
 nodes {
   size {
-    x: 720.0
-    y: 100.0
+    x: 1440.0
+    y: 454.0
   }
   type: TYPE_BOX
   id: "grid_container"
@@ -101,8 +172,8 @@ nodes {
 }
 nodes {
   size {
-    x: 550.0
-    y: 460.0
+    x: 600.0
+    y: 350.0
   }
   type: TYPE_BOX
   id: "game_card/root"
@@ -123,4 +194,99 @@ nodes {
   template_node_child: true
 }
 material: "/builtins/materials/gui.material"
+layouts {
+  name: "Landscape"
+  nodes {
+    size {
+      x: 1440.0
+      y: 1440.0
+    }
+    type: TYPE_BOX
+    id: "scroll_container"
+    parent: "root"
+    overridden_fields: 4
+  }
+  nodes {
+    size {
+      x: 650.0
+      y: 400.0
+    }
+    type: TYPE_BOX
+    id: "game_card/root"
+    parent: "game_card"
+    overridden_fields: 4
+    template_node_child: true
+  }
+}
+layouts {
+  name: "Portrait"
+  nodes {
+    position {
+      x: 360.0
+      y: 720.0
+    }
+    size {
+      x: 720.0
+      y: 1440.0
+    }
+    type: TYPE_BOX
+    id: "root"
+    overridden_fields: 1
+    overridden_fields: 4
+    overridden_fields: 46
+    visible: false
+  }
+  nodes {
+    position {
+      y: 720.0
+    }
+    type: TYPE_BOX
+    id: "top_anchor"
+    parent: "root"
+    overridden_fields: 1
+  }
+  nodes {
+    position {
+      y: 392.0
+    }
+    size {
+      x: 720.0
+      y: 1440.0
+    }
+    type: TYPE_BOX
+    id: "scroll_container"
+    parent: "root"
+    overridden_fields: 1
+    overridden_fields: 4
+  }
+  nodes {
+    size {
+      x: 720.0
+      y: 454.0
+    }
+    type: TYPE_BOX
+    id: "grid_container"
+    parent: "scroll_container"
+    overridden_fields: 4
+  }
+  nodes {
+    size {
+      x: 650.0
+      y: 450.0
+    }
+    type: TYPE_BOX
+    id: "game_card/root"
+    parent: "game_card"
+    overridden_fields: 4
+    template_node_child: true
+  }
+}
 adjust_reference: ADJUST_REFERENCE_PARENT
+particlefxs {
+  name: "impact"
+  particlefx: "/particles/impact.particlefx"
+}
+particlefxs {
+  name: "shape_loop"
+  particlefx: "/particles/shape_loop.particlefx"
+}

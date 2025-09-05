@@ -6,9 +6,10 @@ render = /render/game.renderc
 shared_state = 1
 
 [display]
-width = 720
-height = 1440
-high_dpi = 0
+width = 1440
+height = 720
+high_dpi = 1
+display_profiles = /config/game.display_profilesc
 
 [android]
 input_method = HiddenInputField

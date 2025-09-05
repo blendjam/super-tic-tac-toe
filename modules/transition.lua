@@ -1,3 +1,4 @@
+local utils = require("utils.utils")
 ---@class Transition
 local M = {}
 
@@ -6,8 +7,9 @@ local function show_circle_transition(self)
 	for i, circle in ipairs(self.circle.list) do
 		local column = i % self.circle.column
 		local row    = math.floor((i - column) / self.circle.column)
-		local delay  = row * 0.03
+		local delay  = row * 0.05
 		gui.set_enabled(circle, true)
+		gui.set(circle, "scale", vmath.vector3(0))
 		gui.animate(circle, "scale", vmath.vector3(1), gui.EASING_INOUTSINE, 0.5, delay, function()
 			if i == #self.circle.list then
 				gui.set_enabled(self.loading_overlay, true)
@@ -38,7 +40,7 @@ local function hide_circle_transition(self)
 		-- gui.set_pivot(circle, gui.PIVOT_NE)
 		local column = i % self.circle.column
 		local row    = math.floor((i - column) / self.circle.column)
-		local delay  = row * 0.03
+		local delay  = row * 0.05
 		gui.animate(circle, "scale", vmath.vector3(0), gui.EASING_INOUTSINE, 0.5, delay, function()
 			gui.set_enabled(circle, false)
 			if row == self.circle.row then
@@ -65,7 +67,7 @@ function M:set_templates()
 	self.loading_overlay = gui.get_node("loading_overlay")
 	self.circle = {
 		prefab = gui.get_node("circle"),
-		size = 300,
+		size = 800,
 		row = 0,
 		column = 0,
 		list = {}

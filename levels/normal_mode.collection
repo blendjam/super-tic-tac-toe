@@ -2,10 +2,6 @@ name: "game"
 collection_instances {
   id: "board"
   collection: "/prefabs/board.collection"
-  position {
-    x: 360.0
-    y: 720.0
-  }
 }
 scale_along_z: 0
 embedded_instances {
@@ -32,8 +28,8 @@ embedded_instances {
   "  data: \"default_animation: \\\"1x1\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "size {\\n"
-  "  x: 1440.0\\n"
-  "  y: 2880.0\\n"
+  "  x: 2880.0\\n"
+  "  y: 1440.0\\n"
   "}\\n"
   "size_mode: SIZE_MODE_MANUAL\\n"
   "textures {\\n"
@@ -44,8 +40,6 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 360.0
-    y: 720.0
     z: -5.0
   }
 }
@@ -54,6 +48,14 @@ embedded_instances {
   data: "components {\n"
   "  id: \"game_input\"\n"
   "  component: \"/scripts/game_input.script\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "bot_client"
+  data: "components {\n"
+  "  id: \"bot_client\"\n"
+  "  component: \"/scripts/bot_client.script\"\n"
   "}\n"
   ""
 }

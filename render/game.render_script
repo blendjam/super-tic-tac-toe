@@ -54,16 +54,16 @@ end
 --
 local function get_fixed_fit_projection(camera, state)
     local base_zoom = math.min(state.window_width / state.width, state.window_height / state.height)
-    camera.zoom = base_zoom * (camera.extra_zoom or 1)
-    return get_fixed_projection(camera, state)
-    -- camera.zoom     = base_zoom * (camera.extra_zoom or 1)
-    -- local hw        = state.window_width * 0.5 / camera.zoom
-    -- local hh        = state.window_height * 0.5 / camera.zoom
-    -- local left      = -hw
-    -- local right     = hw
-    -- local bottom    = -hh
-    -- local top       = hh
-    -- return vmath.matrix4_orthographic(left, right, bottom, top, camera.near, camera.far)
+    camera.zoom     = base_zoom * (camera.extra_zoom or 1)
+    -- return get_fixed_projection(camera, state)
+    camera.zoom     = base_zoom * (camera.extra_zoom or 1)
+    local hw        = state.window_width * 0.5 / camera.zoom
+    local hh        = state.window_height * 0.5 / camera.zoom
+    local left      = -hw
+    local right     = hw
+    local bottom    = -hh
+    local top       = hh
+    return vmath.matrix4_orthographic(left, right, bottom, top, camera.near, camera.far)
 end
 --
 -- projection that rotates the camera

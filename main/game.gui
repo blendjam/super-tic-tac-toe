@@ -134,4 +134,91 @@ nodes {
   enabled: false
 }
 material: "/builtins/materials/gui.material"
+layouts {
+  name: "Landscape"
+  nodes {
+    position {
+      x: 720.0
+      y: 360.0
+    }
+    size {
+      x: 1440.0
+      y: 720.0
+    }
+    type: TYPE_BOX
+    id: "root"
+    overridden_fields: 1
+    overridden_fields: 4
+  }
+  nodes {
+    size {
+      x: 1440.0
+      y: 720.0
+    }
+    type: TYPE_BOX
+    id: "end_game"
+    parent: "root"
+    overridden_fields: 4
+  }
+  nodes {
+    size {
+      x: 1440.0
+      y: 720.0
+    }
+    type: TYPE_BOX
+    id: "overlay"
+    parent: "end_game"
+    overridden_fields: 4
+  }
+  nodes {
+    position {
+      y: 108.0
+    }
+    type: TYPE_TEXT
+    id: "win_text"
+    parent: "end_game"
+    overridden_fields: 1
+  }
+  nodes {
+    position {
+      y: -223.0
+    }
+    type: TYPE_BOX
+    id: "replay_button"
+    parent: "end_game"
+    overridden_fields: 1
+  }
+  nodes {
+    position {
+      y: 360.0
+    }
+    type: TYPE_BOX
+    id: "top_anchor"
+    parent: "root"
+    overridden_fields: 1
+  }
+  nodes {
+    position {
+      x: -620.0
+      y: -110.0
+    }
+    type: TYPE_BOX
+    id: "home_button"
+    parent: "top_anchor"
+    overridden_fields: 1
+  }
+  nodes {
+    position {
+      x: 620.0
+      y: -110.0
+    }
+    type: TYPE_BOX
+    id: "zoom_out"
+    parent: "top_anchor"
+    overridden_fields: 1
+  }
+}
+layouts {
+  name: "Portrait"
+}
 adjust_reference: ADJUST_REFERENCE_PARENT

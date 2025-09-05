@@ -62,3 +62,16 @@ embedded_components {
   data: "sound: \"/audio/SFX/grow.wav\"\n"
   ""
 }
+embedded_components {
+  id: "main_menu"
+  type: "sound"
+  data: "sound: \"/audio/Music/main_menu.wav\"\n"
+  "looping: 1\n"
+  ""
+}
+embedded_components {
+  id: "luggage"
+  type: "sound"
+  data: "sound: \"/audio/SFX/luggage.wav\"\n"
+  ""
+}

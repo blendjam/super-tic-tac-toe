@@ -12,7 +12,6 @@ local background_color = {
 local function change_turn(self, last_index)
     self.turn = (self.turn % NUM_PLAYERS) + 1
     go.set(self.background, "tint", background_color[self.turn])
-    -- msg.post(".", "reset_zoom")
     msg.post("game:/board/board", "select_board", { index = last_index })
     go.set(self.background, "tint", background_color[self.turn])
 end
@@ -68,49 +67,3 @@ function on_message(self, message_id, message, sender)
         change_turn(self, message.last_index)
     end
 end
-
--- void CheckForWinner()
--- {
---     //Check if CROSS or circle won the match
---     //Check rows
---     for (int i = 0; i < 3; i++)
---     {
---         if (boards[i * 3].winner == boards[i * 3 + 1].winner && boards[i * 3 + 1].winner == boards[i * 3 + 2].winner)
---         {
---             if (boards[i * 3].winner == PlayerType.CROSS)
---                 winner = PlayerType.CROSS;
---             else if (boards[i * 3].winner == PlayerType.CIRCLE)
---                 winner = PlayerType.CIRCLE;
---         }
---     }
---     //Check columns
---     for (int i = 0; i < 3; i++)
---     {
---         if (boards[i].winner == boards[i + 3].winner && boards[i + 3].winner == boards[i + 6].winner)
---         {
---             if (boards[i].winner == PlayerType.CROSS)
---                 winner = PlayerType.CROSS;
---             else if (boards[i].winner == PlayerType.CIRCLE)
---                 winner = PlayerType.CIRCLE;
---         }
---     }
-
---     //Check diagonals
---     if (boards[0].winner == boards[4].winner && boards[4].winner == boards[8].winner)
---     {
---         if (boards[0].winner == PlayerType.CROSS)
---             winner = PlayerType.CROSS;
---         else if (boards[0].winner == PlayerType.CIRCLE)
---             winner = PlayerType.CIRCLE;
---     }
-
---     //Check diagonals
---     if (boards[2].winner == boards[4].winner && boards[4].winner == boards[6].winner)
---     {
---         if (boards[2].winner == PlayerType.CROSS)
---             winner = PlayerType.CROSS;
---         else if (boards[2].winner == PlayerType.CIRCLE)
---             winner = PlayerType.CIRCLE;
---     }
-
--- }

@@ -28,8 +28,7 @@ function init(self)
 				url = "board" .. i .. j .. "/board",
 				selected = false,
 				completed = false,
-				winner =
-					utils.WinnerType.NONE
+				winner = utils.WinnerType.NONE
 			}
 		end
 	end
