@@ -18,6 +18,8 @@ function init(self)
 	end)
 	self.end_game = gui.get_node("end_game")
 	self.end_game_overlay = gui.get_node("overlay")
+	self.your_turn = gui.get_node("your_turn")
+	self.turn_text = gui.get_node("turn_text")
 	gui.set_enabled(self.end_game, false)
 end
 
@@ -40,6 +42,25 @@ function on_message(self, message_id, message, sender)
 		gui.set_enabled(self.zoom_button.node, true)
 	end
 
+	if message_id == hash("change_turn") then
+		if message.player_type == "computer" then
+			if message.turn == 1 then
+				gui.set_text(self.turn_text, "Your Turn")
+			else
+				gui.set_text(self.turn_text, "Bot Turn")
+			end
+		else
+			if message.turn == 1 then
+				gui.set_text(self.turn_text, "Circle Turn")
+			else
+				gui.set_text(self.turn_text, "Cross Turn")
+			end
+		end
+		gui.animate(self.your_turn, "scale", vmath.vector3(1), gui.EASING_OUTBACK, 0.3, 0, function()
+			gui.animate(self.your_turn, "scale", vmath.vector3(0), gui.EASING_INBACK, 0.3, 0.5)
+		end)
+	end
+
 	if message_id == hash("disable_zoom_button") then
 		self.zoom_button:set_enabled(false)
 		gui.play_flipbook(self.zoom_button.node, "Full Screen Disabled")
@@ -52,7 +73,7 @@ function on_message(self, message_id, message, sender)
 
 	if message_id == hash("on_game_end") then
 		self.replay_button = self.druid:new_button("replay_button", function()
-			LevelController:restart_level(game_mode, nil, true)
+			LevelController:load_level(LevelController.Levels.main_menu, nil, true)
 		end)
 		gui.set_enabled(self.end_game, true)
 		gui.set(self.end_game, "color.w", 0)

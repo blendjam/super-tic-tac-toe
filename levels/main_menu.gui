@@ -169,6 +169,7 @@ nodes {
   parent: "grid_container"
   inherit_alpha: true
   template: "/gui/components/game_card.gui"
+  enabled: false
 }
 nodes {
   size {
@@ -191,6 +192,61 @@ nodes {
   type: TYPE_TEXT
   id: "game_card/game_name"
   parent: "game_card/root"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEMPLATE
+  id: "game_select"
+  parent: "root"
+  inherit_alpha: true
+  template: "/levels/game_select.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_select/overlay"
+  parent: "game_select"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_select/close_button"
+  parent: "game_select/overlay"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_select/root"
+  parent: "game_select"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_select/button_container"
+  parent: "game_select/root"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_select/box"
+  parent: "game_select/button_container"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_select/computer"
+  parent: "game_select/button_container"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "game_select/two_player"
+  parent: "game_select/button_container"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "game_select/title"
+  parent: "game_select/root"
   template_node_child: true
 }
 material: "/builtins/materials/gui.material"

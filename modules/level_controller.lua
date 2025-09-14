@@ -2,13 +2,17 @@
 -- local Storage = require("_core.networking.appcore.Storage")
 
 local Levels = {
-    game = hash("game"),
+    normal_mode = hash("normal_mode"),
+    super_mode = hash("super_mode"),
+    game_select = hash("game_select"),
     main_menu = hash("main_menu"),
 
 }
 
 local broadcastUrls = {
-    [Levels.game] = "game:/game_controller",
+    [Levels.normal_mode] = "game:/game_controller",
+    [Levels.super_mode] = "game:/game_controller",
+    [Levels.game_select] = "game_select:/game_select",
     [Levels.main_menu] = nil, -- nil means there is nothing to broadcast when this level is loaded
 }
 

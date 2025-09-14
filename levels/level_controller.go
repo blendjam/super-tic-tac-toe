@@ -26,3 +26,9 @@ embedded_components {
   data: "collection: \"/levels/super_mode.collection\"\n"
   ""
 }
+embedded_components {
+  id: "game_select"
+  type: "collectionproxy"
+  data: "collection: \"/levels/game_select.collection\"\n"
+  ""
+}

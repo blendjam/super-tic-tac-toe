@@ -1,5 +1,6 @@
 local utils = require("utils.utils")
 local lines = {}
+
 local function set_line_color(color)
     for i = 1, 4 do
         lines[i] = { root = "line" .. i, sprite = "line" .. i .. "#sprite" }
@@ -19,9 +20,9 @@ function init(self)
     self.board_scale = go.get_scale().x
     self.board_size = go.get("#board_area", "size") * self.board_scale
     self.winning_line = { p1 = { i = 0, j = 0 }, p2 = { i = 0, j = 0 } }
+    self.offset = 100 * self.board_scale
     self.winner = utils.WinnerType.NONE
     self.selected = true
-    -- AudioManager
 end
 
 local function get_position_from_index(self, index)
@@ -83,6 +84,44 @@ local function is_board_full(self)
     return true
 end
 
+local function on_play_action(self, i, j, turn)
+    if self.board[i][j] == nil then
+        msg.post("game:/game_controller", "on_shape_spawn",
+            {
+                position = go.get_position(),
+                i = i,
+                j = j,
+                shape = turn == 1 and utils.PlayerType.CIRCLE or
+                    utils.PlayerType.CROSS
+            })
+        local x_pos = go.get_position().x + (j - 2) * self.offset * 2
+        local y_pos = go.get_position().y + (2 - i) * self.offset * 2
+        if turn == 1 then
+            self.board[i][j] = utils.PlayerType.CIRCLE
+            msg.post("shape_spawner", "spawn_shape",
+                { shape = "circle", position = vmath.vector3(x_pos, y_pos, 0) })
+        else
+            self.board[i][j] = utils.PlayerType.CROSS
+            msg.post("shape_spawner", "spawn_shape",
+                { shape = "cross", position = vmath.vector3(x_pos, y_pos, 0) })
+        end
+
+        if check_winner(self) then
+            self.winning_line.p1 = get_position_from_index(self, self.winning_line.p1)
+            self.winning_line.p2 = get_position_from_index(self, self.winning_line.p2)
+            set_line_color(vmath.vector4(0.3, 0.3, 0.3, 1))
+            msg.post("game:/game_controller", "on_board_complete",
+                { winner = self.winner, winning_line = self.winning_line, last_index = { i = i, j = j } })
+        elseif is_board_full(self) then
+            set_line_color(vmath.vector4(0.3, 0.3, 0.3, 1))
+            msg.post("game:/game_controller", "on_board_complete",
+                { winner = utils.WinnerType.TIE, last_index = { i = i, j = j } })
+        else
+            msg.post("game:/game_controller", "change_turn", { last_index = { i = i, j = j } })
+        end
+    end
+end
+
 local function on_board_touch(self, touch_position, turn, play_state)
     if play_state ~= utils.PlayState.PLAY or not self.selected then return end
     touch_position = utils.screen_to_world(touch_position)
@@ -92,47 +131,18 @@ local function on_board_touch(self, touch_position, turn, play_state)
     local i = 0
     local j = 0
 
-    local offset = 100 * self.board_scale
-    if touch_position.x > go.get_position().x + offset then
+    if touch_position.x > go.get_position().x + self.offset then
         j = 1
-    elseif touch_position.x < go.get_position().x - offset then
+    elseif touch_position.x < go.get_position().x - self.offset then
         j = -1
     end
-    if touch_position.y > go.get_position().y + offset then
+    if touch_position.y > go.get_position().y + self.offset then
         i = 1
-    elseif touch_position.y < go.get_position().y - offset then
+    elseif touch_position.y < go.get_position().y - self.offset then
         i = -1
     end
 
-    if self.board[2 - i][j + 2] == nil then
-        local x_pos = go.get_position().x + j * offset * 2
-        local y_pos = go.get_position().y + i * offset * 2
-        if turn == 1 then
-            self.board[2 - i][j + 2] = utils.PlayerType.CIRCLE
-            msg.post("shape_spawner", "spawn_shape",
-                { shape = "circle", position = vmath.vector3(x_pos, y_pos, 0) })
-        else
-            self.board[2 - i][j + 2] = utils.PlayerType.CROSS
-            msg.post("shape_spawner", "spawn_shape",
-                { shape = "cross", position = vmath.vector3(x_pos, y_pos, 0) })
-        end
-
-        if check_winner(self) then
-            pprint("WINNING LINE", self.winning_line)
-            self.winning_line.p1 = get_position_from_index(self, self.winning_line.p1)
-            self.winning_line.p2 = get_position_from_index(self, self.winning_line.p2)
-            pprint("WINNING LINE Affter", self.winning_line)
-            set_line_color(vmath.vector4(0.3, 0.3, 0.3, 1))
-            msg.post("game:/game_controller", "on_board_complete",
-                { winner = self.winner, winning_line = self.winning_line, last_index = { 2 - i, j + 2 } })
-        elseif is_board_full(self) then
-            set_line_color(vmath.vector4(0.3, 0.3, 0.3, 1))
-            msg.post("game:/game_controller", "on_board_complete",
-                { winner = utils.WinnerType.TIE, last_index = { 2 - i, j + 2 } })
-        else
-            msg.post("game:/game_controller", "change_turn", { last_index = { 2 - i, j + 2 } })
-        end
-    end
+    on_play_action(self, 2 - i, j + 2, turn)
 end
 
 local function set_selected(self, selected)
@@ -150,6 +160,10 @@ local function set_selected(self, selected)
 end
 
 function on_message(self, message_id, message, sender)
+    if message_id == hash("play_action") then
+        on_play_action(self, message.i, message.j, message.turn)
+    end
+
     if message_id == hash("on_touch") then
         on_board_touch(self, message.position, message.turn, message.play_state)
     end

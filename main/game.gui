@@ -34,6 +34,7 @@ nodes {
   parent: "root"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
+  enabled: false
   visible: false
 }
 nodes {
@@ -78,7 +79,7 @@ nodes {
     y: 150.0
   }
   type: TYPE_BOX
-  texture: "button/Replay"
+  texture: "button/Home"
   id: "replay_button"
   parent: "end_game"
   inherit_alpha: true
@@ -132,6 +133,70 @@ nodes {
   parent: "top_anchor"
   inherit_alpha: true
   enabled: false
+}
+nodes {
+  position {
+    y: -720.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "bottom_anchor"
+  yanchor: YANCHOR_BOTTOM
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  scale {
+    x: 1.0E-6
+    y: 1.0E-6
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "your_turn"
+  parent: "bottom_anchor"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  size {
+    x: 200.0
+    y: 200.0
+  }
+  type: TYPE_PIE
+  id: "your_turn1"
+  parent: "your_turn"
+  inherit_alpha: true
+  pieFillAngle: 180.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    y: 36.0
+  }
+  scale {
+    x: 0.46464
+    y: 0.46464
+    z: 0.46464
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Your Turn"
+  font: "primary"
+  id: "turn_text"
+  parent: "your_turn"
+  inherit_alpha: true
 }
 material: "/builtins/materials/gui.material"
 layouts {
@@ -216,6 +281,17 @@ layouts {
     id: "zoom_out"
     parent: "top_anchor"
     overridden_fields: 1
+  }
+  nodes {
+    position {
+      y: -360.0
+    }
+    type: TYPE_BOX
+    id: "bottom_anchor"
+    parent: "root"
+    overridden_fields: 1
+    overridden_fields: 46
+    visible: false
   }
 }
 layouts {

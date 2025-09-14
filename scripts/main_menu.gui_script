@@ -1,5 +1,6 @@
 local druid = require("druid.druid")
 local game_card = require("gui.components.game_card")
+local game_select = require("gui.components.game_select")
 
 local function animate_title(self)
     gui.animate(self.titel_anchor, "scale.y", 1.05, gui.EASING_INOUTSINE, 2, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
@@ -28,14 +29,15 @@ function init(self)
     move_down(self)
     gui.play_particlefx(gui.get_node("shape_loop"))
     self.scroll = self.druid:new_scroll("scroll_container", "grid_container")
-    pprint("GUI", gui.get_layout(), gui.get_layout() == hash("Portrait"))
     local grid_count = (gui.get_layout() == hash("Portrait")) and 1 or 2
     self.grid = self.druid:new_grid("grid_container", self.game_card_prefab, grid_count)
     for i = 1, 2 do
         local new_card = gui.clone_tree(self.game_card_prefab)
         local card = self.druid:new_widget(game_card, "game_card", new_card, i)
+        gui.set_enabled(card.root, true)
         self.grid:add(card.root)
     end
+    self.game_select = self.druid:new_widget(game_select, "game_select")
     self.scroll:bind_grid(self.grid)
     gui.set_enabled(self.game_card_prefab, false)
 
@@ -48,6 +50,9 @@ end
 
 function on_message(self, message_id, message, sender)
     self.druid:on_message(message_id, message, sender)
+    if message_id == hash("show_game_select") then
+        self.game_select:show(message.room_type)
+    end
 end
 
 function update(self, dt)
@@ -55,6 +60,6 @@ function update(self, dt)
 end
 
 function final(self)
-    AudioManager:fade_out_music("main_menu", 0.1)
     self.druid:final()
+    AudioManager:fade_out_music("main_menu", 0.1)
 end

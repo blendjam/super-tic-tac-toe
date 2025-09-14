@@ -15,7 +15,10 @@ display_profiles = /config/game.display_profilesc
 input_method = HiddenInputField
 
 [html5]
-scale_mode = stretch
+scale_mode = fit
+show_fullscreen_button = 0
+show_made_with_defold = 0
+cssfile = /builtins/manifests/web/light_theme.css
 
 [project]
 title = SuperTicTacToe

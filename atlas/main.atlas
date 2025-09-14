@@ -1,4 +1,7 @@
 images {
   image: "/textures/1x1.png"
 }
+images {
+  image: "/textures/shapes/round_square.png"
+}
 extrude_borders: 2

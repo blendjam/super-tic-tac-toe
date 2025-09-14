@@ -28,4 +28,13 @@ images {
 images {
   image: "/textures/buttons/Zoom_Out_Pressed.png"
 }
+images {
+  image: "/textures/buttons/two_player.png"
+}
+images {
+  image: "/textures/buttons/computer.png"
+}
+images {
+  image: "/textures/buttons/close_button.png"
+}
 extrude_borders: 2

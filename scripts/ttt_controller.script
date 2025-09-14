@@ -10,14 +10,22 @@ local background_color = {
 local function change_turn(self)
 	self.turn = (self.turn % NUM_PLAYERS) + 1
 	go.set(self.background, "tint", background_color[self.turn])
+	if self.player_type == "computer" and self.turn == 2 and self.play_state ~= utils.PlayState.END then
+		timer.delay(0.5, false, function()
+			msg.post("game:/bot", "get_move", { board = self.board })
+		end)
+	end
 end
 
 function init(self)
-	self.turn = 2
+	self.turn       = 2
 	self.play_state = utils.PlayState.PLAY
-	self.board = nil
+	self.board      = {
+		{ utils.WinnerType.NONE, utils.WinnerType.NONE, utils.WinnerType.NONE },
+		{ utils.WinnerType.NONE, utils.WinnerType.NONE, utils.WinnerType.NONE },
+		{ utils.WinnerType.NONE, utils.WinnerType.NONE, utils.WinnerType.NONE },
+	}
 	self.background = msg.url(nil, "background", "sprite")
-	change_turn(self)
 end
 
 local function draw_final_line(self, winning_line)
@@ -40,9 +48,38 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("on_touch") then
-		msg.post("game:/board/board", "on_touch",
-			{ position = message.position, turn = self.turn, play_state = utils.PlayState.PLAY })
+		if self.player_type == "computer" then
+			if self.turn == 1 then
+				msg.post("game:/board/board", "on_touch",
+					{
+						position = message.position,
+						turn = self.turn,
+						play_state = utils.PlayState.PLAY
+					})
+			end
+		else
+			msg.post("game:/board/board", "on_touch",
+				{
+					position = message.position,
+					turn = self.turn,
+					play_state = utils.PlayState.PLAY
+				})
+		end
 	end
+
+	if message_id == hash("bot_play") then
+		msg.post("game:/board/board", "play_action", { i = message.index.i, j = message.index.j, turn = self.turn })
+	end
+
+	if message_id == hash("on_shape_spawn") then
+		self.board[message.i][message.j] = message.shape
+	end
+
+	if message_id == hash("level_loaded") then
+		self.player_type = message.player_type
+		change_turn(self)
+	end
+
 	if message_id == hash("change_turn") then
 		change_turn(self)
 	end

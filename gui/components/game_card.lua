@@ -15,8 +15,7 @@ function M:init(card_id)
     gui.play_flipbook(self.card_bg, card_type[self.card_id].image)
     gui.set_text(self.text, card_type[self.card_id].name)
     self.button = self.druid:new_button(self.card_bg, function()
-        pprint("SELECTED", card_id)
-        LevelController:load_level(card_type[card_id].level_name, { roomType = card_type[self.card_id].name }, true)
+        msg.post("main_menu:/main_menu", "show_game_select", { room_type = card_type[self.card_id].level_name })
     end)
 end
 

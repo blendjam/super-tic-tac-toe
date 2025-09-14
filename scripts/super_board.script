@@ -1,6 +1,7 @@
 local utils = require("utils.utils")
 local lines = {}
 local line_offset = 100
+local game_state = require("modules.game_state")
 
 local function is_touching_board(self, touch_position)
 	local board_position = go.get_position()
@@ -20,18 +21,7 @@ function init(self)
 	self.winner = utils.WinnerType.NONE
 	self.winning_line = { p1 = { i = 0, j = 0 }, p2 = { i = 0, j = 0 } }
 	self.line_width = 30
-	self.boards = {}
-	for i = 1, 3 do
-		self.boards[i] = {}
-		for j = 1, 3 do
-			self.boards[i][j] = {
-				url = "board" .. i .. j .. "/board",
-				selected = false,
-				completed = false,
-				winner = utils.WinnerType.NONE
-			}
-		end
-	end
+	self.boards = game_state.board_state
 end
 
 local function get_board_index(self, world_position)
@@ -148,7 +138,8 @@ local function on_board_touch(self, touch_position, turn, play_state)
 	if not is_touching_board(self, world_pos) then return end
 	if play_state == utils.PlayState.PLAY then
 		local i, j = get_board_index(self, world_pos)
-		msg.post(self.boards[i][j].url, "on_touch", { position = touch_position, turn = turn, play_state = play_state })
+		local url = "board" .. i .. j .. "/board"
+		msg.post(url, "on_touch", { position = touch_position, turn = turn, play_state = play_state })
 	elseif play_state == utils.PlayState.FULLVIEW then
 		local i, j = get_board_index(self, world_pos)
 		if self.boards[i][j].selected and not self.boards[i][j].completed then
@@ -174,6 +165,18 @@ function on_message(self, message_id, message, sender)
 		on_board_touch(self, message.position, message.turn, message.play_state)
 	end
 
+	if message_id == hash("play_action") then
+		local url = "board" .. message.index1.i .. message.index1.j .. "/board"
+		pprint("URL", url, message.index2)
+		msg.post(url, "play_action", { i = message.index2.i, j = message.index2.j, turn = self.turn })
+	end
+
+	if message_id == hash("on_shape_spawn") then
+		local i, j = get_board_index(self, message.position)
+		self.boards[i][j].state[message.i][message.j] = message.shape
+		game_state:set_state(self.boards)
+	end
+
 	if message_id == hash("board_complete") then
 		local i, j = get_board_index(self, message.position)
 		self.boards[i][j].winner = message.winner
@@ -190,7 +193,8 @@ function on_message(self, message_id, message, sender)
 		for i = 1, 3 do
 			for j = 1, 3 do
 				if not self.boards[i][j].completed then
-					msg.post(self.boards[i][j].url, "set_selected", { selected = true })
+					local url = "board" .. i .. j .. "/board"
+					msg.post(url, "set_selected", { selected = true })
 					self.boards[i][j].selected = true
 				end
 			end
@@ -199,15 +203,18 @@ function on_message(self, message_id, message, sender)
 
 	if message_id == hash("select_board") then
 		if message.index == nil then return end
+		pprint("MESSAGE INDEX", message.index)
 		for i = 1, 3 do
 			for j = 1, 3 do
-				msg.post(self.boards[i][j].url, "set_selected", { selected = false })
+				local url = "board" .. i .. j .. "/board"
+				msg.post(url, "set_selected", { selected = false })
 				self.boards[i][j].selected = false
 			end
 		end
-		local board = self.boards[message.index[1]][message.index[2]]
+		local board = self.boards[message.index.i][message.index.j]
 		board.selected = true
-		msg.post(board.url, "set_selected", { selected = true })
+		local url = "board" .. message.index.i .. message.index.j .. "/board"
+		msg.post(url, "set_selected", { selected = true })
 		if board.completed then
 			msg.post(".", "select_all")
 		end

@@ -75,3 +75,9 @@ embedded_components {
   data: "sound: \"/audio/SFX/luggage.wav\"\n"
   ""
 }
+embedded_components {
+  id: "toggle_pressed"
+  type: "sound"
+  data: "sound: \"/audio/SFX/toggle_pressed.wav\"\n"
+  ""
+}

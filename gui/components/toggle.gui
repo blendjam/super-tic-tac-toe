@@ -1,0 +1,82 @@
+fonts {
+  name: "primary"
+  font: "/fonts/primary.font"
+}
+textures {
+  name: "icons"
+  texture: "/assets/atlas/icons.atlas"
+}
+textures {
+  name: "buttons"
+  texture: "/assets/atlas/buttons.atlas"
+}
+nodes {
+  type: TYPE_BOX
+  id: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  scale {
+    x: 0.72
+    y: 0.72
+  }
+  type: TYPE_BOX
+  texture: "buttons/toggle_button"
+  id: "button"
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.28416
+    y: 0.28416
+    z: 0.28416
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "text"
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  enabled: false
+  visible: false
+}
+nodes {
+  size {
+    x: 500.0
+    y: 150.0
+  }
+  type: TYPE_TEXT
+  text: "CLASSIC"
+  font: "primary"
+  id: "button_text"
+  outline {
+    x: 0.102
+    y: 0.071
+    z: 0.016
+  }
+  parent: "text"
+  inherit_alpha: true
+  text_leading: 0.0
+  text_tracking: 0.03
+}
+nodes {
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "icon"
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

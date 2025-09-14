@@ -52,10 +52,10 @@ embedded_instances {
   ""
 }
 embedded_instances {
-  id: "bot_client"
+  id: "bot"
   data: "components {\n"
   "  id: \"bot_client\"\n"
-  "  component: \"/scripts/bot_client.script\"\n"
+  "  component: \"/scripts/normal_bot.script\"\n"
   "}\n"
   ""
 }

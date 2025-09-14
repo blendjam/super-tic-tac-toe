@@ -1,0 +1,10 @@
+name: "game_select"
+scale_along_z: 0
+embedded_instances {
+  id: "game_select"
+  data: "components {\n"
+  "  id: \"game_select\"\n"
+  "  component: \"/levels/game_select.gui\"\n"
+  "}\n"
+  ""
+}

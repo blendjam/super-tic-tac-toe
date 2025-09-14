@@ -1,0 +1,164 @@
+fonts {
+  name: "primary"
+  font: "/fonts/primary.font"
+}
+textures {
+  name: "button"
+  texture: "/atlas/button.atlas"
+}
+textures {
+  name: "main"
+  texture: "/atlas/main.atlas"
+}
+nodes {
+  size {
+    x: 1440.0
+    y: 720.0
+  }
+  color {
+    x: 0.22
+    y: 0.255
+    z: 0.29
+  }
+  type: TYPE_BOX
+  id: "overlay"
+  adjust_mode: ADJUST_MODE_STRETCH
+  inherit_alpha: true
+  alpha: 0.95
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 643.0
+    y: 298.0
+  }
+  size {
+    x: 60.0
+    y: 60.0
+  }
+  type: TYPE_BOX
+  texture: "button/close_button"
+  id: "close_button"
+  xanchor: XANCHOR_RIGHT
+  yanchor: YANCHOR_TOP
+  parent: "overlay"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 1440.0
+    y: 720.0
+  }
+  type: TYPE_BOX
+  id: "root"
+  adjust_mode: ADJUST_MODE_STRETCH
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    y: -35.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "button_container"
+  parent: "root"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  size {
+    x: 535.0
+    y: 500.0
+  }
+  type: TYPE_BOX
+  texture: "main/round_square"
+  id: "box"
+  parent: "button_container"
+  inherit_alpha: true
+  slice9 {
+    x: 50.0
+    y: 50.0
+    z: 50.0
+    w: 50.0
+  }
+}
+nodes {
+  position {
+    y: -100.0
+  }
+  size {
+    x: 319.0
+    y: 125.5
+  }
+  type: TYPE_BOX
+  texture: "button/computer"
+  id: "computer"
+  parent: "button_container"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: 100.0
+  }
+  size {
+    x: 319.0
+    y: 125.5
+  }
+  type: TYPE_BOX
+  texture: "button/two_player"
+  id: "two_player"
+  parent: "button_container"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: 265.0
+  }
+  scale {
+    x: 1.46
+    y: 1.46
+    z: 1.46
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Choose Mode"
+  font: "primary"
+  id: "title"
+  parent: "root"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+layouts {
+  name: "Landscape"
+}
+layouts {
+  name: "Portrait"
+  nodes {
+    size {
+      x: 720.0
+      y: 1440.0
+    }
+    type: TYPE_BOX
+    id: "overlay"
+    overridden_fields: 4
+  }
+  nodes {
+    size {
+      x: 720.0
+      y: 1440.0
+    }
+    type: TYPE_BOX
+    id: "root"
+    overridden_fields: 4
+  }
+}
+adjust_reference: ADJUST_REFERENCE_PARENT
