@@ -2,6 +2,7 @@ local utils = require("utils.utils")
 local PlayerType = utils.PlayerType
 local PlayState = utils.PlayState
 local game_state = require("modules.game_state")
+game_state:reset_state()
 
 local NUM_PLAYERS = 2
 
@@ -91,12 +92,13 @@ function on_message(self, message_id, message, sender)
 
     if message_id == hash("on_board_complete") then
         local position = go.get_position(sender)
-        -- msg.post(".", "reset_zoom")
         msg.post("game:/board/board", "board_complete", { winner = message.winner, position = position })
         if message.winner ~= utils.WinnerType.TIE then
             msg.post("shape_spawner", "spawn_shape", { shape = message.winner, position = position })
         end
-        change_turn(self, message.last_index)
+        timer.delay(0.1, false, function()
+            change_turn(self, message.last_index)
+        end)
     end
 
     if message_id == hash("level_loaded") then
