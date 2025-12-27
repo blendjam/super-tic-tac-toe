@@ -12,8 +12,8 @@ textures {
 }
 nodes {
   size {
-    x: 1440.0
-    y: 720.0
+    x: 720.0
+    y: 1440.0
   }
   color {
     x: 0.22
@@ -29,12 +29,12 @@ nodes {
 }
 nodes {
   position {
-    x: 643.0
-    y: 298.0
+    x: 289.0
+    y: 649.0
   }
   size {
-    x: 60.0
-    y: 60.0
+    x: 80.0
+    y: 80.0
   }
   type: TYPE_BOX
   texture: "button/close_button"
@@ -46,8 +46,8 @@ nodes {
 }
 nodes {
   size {
-    x: 1440.0
-    y: 720.0
+    x: 720.0
+    y: 1440.0
   }
   type: TYPE_BOX
   id: "root"
@@ -139,26 +139,41 @@ nodes {
 material: "/builtins/materials/gui.material"
 layouts {
   name: "Landscape"
-}
-layouts {
-  name: "Portrait"
   nodes {
     size {
-      x: 720.0
-      y: 1440.0
+      x: 1440.0
+      y: 720.0
     }
     type: TYPE_BOX
     id: "overlay"
     overridden_fields: 4
   }
   nodes {
+    position {
+      x: 651.0
+      y: 305.0
+    }
     size {
-      x: 720.0
-      y: 1440.0
+      x: 80.0
+      y: 80.0
+    }
+    type: TYPE_BOX
+    id: "close_button"
+    parent: "overlay"
+    overridden_fields: 1
+    overridden_fields: 4
+  }
+  nodes {
+    size {
+      x: 1440.0
+      y: 720.0
     }
     type: TYPE_BOX
     id: "root"
     overridden_fields: 4
   }
+}
+layouts {
+  name: "Portrait"
 }
 adjust_reference: ADJUST_REFERENCE_PARENT
