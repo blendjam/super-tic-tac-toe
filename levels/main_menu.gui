@@ -5,12 +5,12 @@ fonts {
 }
 nodes {
   position {
-    x: 720.0
-    y: 360.0
+    x: 360.0
+    y: 720.0
   }
   size {
-    x: 1440.0
-    y: 720.0
+    x: 720.0
+    y: 1440.0
   }
   type: TYPE_BOX
   id: "root"
@@ -21,15 +21,16 @@ nodes {
 }
 nodes {
   position {
-    y: 360.0
+    y: 720.0
   }
   size {
-    x: 200.0
+    x: 720.0
     y: 100.0
   }
   type: TYPE_BOX
   id: "top_anchor"
   yanchor: YANCHOR_TOP
+  adjust_mode: ADJUST_MODE_STRETCH
   parent: "root"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
@@ -91,9 +92,6 @@ nodes {
   particlefx: "impact"
 }
 nodes {
-  position {
-    y: 53.0
-  }
   size {
     x: 200.0
     y: 100.0
@@ -253,6 +251,36 @@ material: "/builtins/materials/gui.material"
 layouts {
   name: "Landscape"
   nodes {
+    position {
+      x: 720.0
+      y: 360.0
+    }
+    size {
+      x: 1440.0
+      y: 720.0
+    }
+    type: TYPE_BOX
+    id: "root"
+    overridden_fields: 1
+    overridden_fields: 4
+  }
+  nodes {
+    position {
+      y: 360.0
+    }
+    size {
+      x: 1440.0
+      y: 100.0
+    }
+    type: TYPE_BOX
+    id: "top_anchor"
+    adjust_mode: ADJUST_MODE_STRETCH
+    parent: "root"
+    overridden_fields: 1
+    overridden_fields: 4
+    overridden_fields: 17
+  }
+  nodes {
     size {
       x: 1440.0
       y: 1440.0
@@ -296,10 +324,17 @@ layouts {
     position {
       y: 720.0
     }
+    size {
+      x: 720.0
+      y: 100.0
+    }
     type: TYPE_BOX
     id: "top_anchor"
+    adjust_mode: ADJUST_MODE_STRETCH
     parent: "root"
     overridden_fields: 1
+    overridden_fields: 4
+    overridden_fields: 17
   }
   nodes {
     position {

@@ -90,11 +90,12 @@ nodes {
   }
   size {
     x: 720.0
-    y: 100.0
+    y: 200.0
   }
   type: TYPE_BOX
   id: "top_anchor"
   yanchor: YANCHOR_TOP
+  pivot: PIVOT_N
   adjust_mode: ADJUST_MODE_STRETCH
   parent: "root"
   inherit_alpha: true
@@ -103,33 +104,31 @@ nodes {
 }
 nodes {
   position {
-    x: -250.0
-    y: -110.0
+    x: -260.0
+    y: -200.0
   }
   size {
-    x: 80.0
-    y: 80.0
+    x: 120.0
+    y: 120.0
   }
   type: TYPE_BOX
   texture: "button/Home"
   id: "home_button"
-  xanchor: XANCHOR_LEFT
   parent: "top_anchor"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 250.0
-    y: -110.0
+    x: 260.0
+    y: -200.0
   }
   size {
-    x: 80.0
-    y: 80.0
+    x: 120.0
+    y: 120.0
   }
   type: TYPE_BOX
   texture: "button/Zoom_Out"
   id: "zoom_out"
-  xanchor: XANCHOR_LEFT
   parent: "top_anchor"
   inherit_alpha: true
   enabled: false
@@ -139,12 +138,13 @@ nodes {
     y: -720.0
   }
   size {
-    x: 200.0
+    x: 720.0
     y: 100.0
   }
   type: TYPE_BOX
   id: "bottom_anchor"
   yanchor: YANCHOR_BOTTOM
+  adjust_mode: ADJUST_MODE_STRETCH
   parent: "root"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
@@ -167,6 +167,11 @@ nodes {
   visible: false
 }
 nodes {
+  scale {
+    x: 1.42
+    y: 1.42
+    z: 1.42
+  }
   size {
     x: 200.0
     y: 200.0
@@ -180,15 +185,15 @@ nodes {
 }
 nodes {
   position {
-    y: 36.0
+    y: 49.0
   }
   scale {
-    x: 0.46464
-    y: 0.46464
-    z: 0.46464
+    x: 0.659789
+    y: 0.659789
+    z: 0.659789
   }
   size {
-    x: 200.0
+    x: 250.0
     y: 100.0
   }
   type: TYPE_TEXT
