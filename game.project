@@ -40,6 +40,7 @@ publisher = blendjam
 developer = blendjam
 dependencies#0 = https://github.com/Insality/druid/archive/refs/tags/1.1.6.zip
 dependencies#1 = https://github.com/Insality/defold-event/archive/refs/tags/13.zip
+dependencies#2 = https://github.com/defold/extension-admob/archive/refs/tags/3.8.1.zip
 
 [render]
 clear_color_red = 1.0
@@ -55,3 +56,7 @@ bundle_identifier = com.blendjam.superttt
 [osx]
 bundle_identifier = com.blendjam.superttt
 
+[admob]
+app_id_android = ca-app-pub-3499457194604923~4208078054 
+banner_app_id = ca-app-pub-3499457194604923/5499348114 
+inter_app_id = ca-app-pub-3499457194604923/1061124248 
