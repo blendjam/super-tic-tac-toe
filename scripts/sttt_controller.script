@@ -103,5 +103,6 @@ function on_message(self, message_id, message, sender)
 
     if message_id == hash("level_loaded") then
         self.player_type = message.player_type
+        msg.post("game:/game_gui", "set_game_info", {level_name = LevelController.Levels.super_mode, player_type = message.player_type})
     end
 end
