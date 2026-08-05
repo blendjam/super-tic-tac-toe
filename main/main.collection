@@ -24,3 +24,11 @@ embedded_instances {
   "}\n"
   ""
 }
+embedded_instances {
+  id: "ad_manager"
+  data: "components {\n"
+  "  id: \"ad_manager\"\n"
+  "  component: \"/scripts/ad_manager.script\"\n"
+  "}\n"
+  ""
+}

@@ -58,5 +58,7 @@ bundle_identifier = com.blendjam.superttt
 
 [admob]
 app_id_android = ca-app-pub-3499457194604923~4208078054 
-banner_app_id = ca-app-pub-3499457194604923/5499348114 
-inter_app_id = ca-app-pub-3499457194604923/1061124248 
+app_id_banner = ca-app-pub-3499457194604923/5499348114 
+app_id_interstitial = ca-app-pub-3499457194604923/1061124248 
+app_id_rewarded = ca-app-pub-3499457194604923/2308079693
+

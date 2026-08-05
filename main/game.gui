@@ -20,7 +20,6 @@ nodes {
   id: "root"
   adjust_mode: ADJUST_MODE_STRETCH
   inherit_alpha: true
-  size_mode: SIZE_MODE_AUTO
   visible: false
 }
 nodes {
@@ -34,7 +33,6 @@ nodes {
   parent: "root"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
-  enabled: false
   visible: false
 }
 nodes {
@@ -52,7 +50,7 @@ nodes {
 }
 nodes {
   position {
-    y: 436.0
+    y: 200.0
   }
   scale {
     x: 2.4
@@ -64,22 +62,23 @@ nodes {
     y: 100.0
   }
   type: TYPE_TEXT
-  text: "You Win"
+  text: "Wins"
   font: "primary"
   id: "win_text"
+  line_break: true
   parent: "end_game"
   inherit_alpha: true
 }
 nodes {
   position {
-    y: -506.0
+    y: -500.0
   }
   size {
     x: 150.0
     y: 150.0
   }
   type: TYPE_BOX
-  texture: "button/Home"
+  texture: "button/Replay"
   id: "replay_button"
   parent: "end_game"
   inherit_alpha: true
@@ -105,7 +104,7 @@ nodes {
 nodes {
   position {
     x: -260.0
-    y: -200.0
+    y: -232.0
   }
   size {
     x: 120.0
@@ -120,7 +119,7 @@ nodes {
 nodes {
   position {
     x: 260.0
-    y: -200.0
+    y: -232.0
   }
   size {
     x: 120.0

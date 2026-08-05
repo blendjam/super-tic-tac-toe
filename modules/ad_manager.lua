@@ -1,8 +1,7 @@
-local Event     = require("event.event")
----@class AdManager
-local AdManager = {
-    isLoading = false,
-}
+local event = require("event.event")
+local utils = require("utils.utils")
+---@class M
+local M = {}
 
 local EVENT_TEXTS = {}
 if admob then
@@ -41,7 +40,7 @@ local function admob_callback(self, message_id, message)
         print_event("INTERSTITIAL", message)
         self.onInterLoaded:trigger()
     elseif message_id == admob.MSG_BANNER then
-        print_event("BANNER LOADED", message)
+        print_event("BANNER", message)
         self.onBannerLoaded:trigger()
     elseif message_id == admob.MSG_REWARDED then
         if message.event == admob.EVENT_LOADED then
@@ -69,39 +68,44 @@ local function admob_callback(self, message_id, message)
     end
 end
 
-function AdManager:init()
-    self.onRewardedLoaded = Event.create()
-    self.onBannerLoaded = Event.create()
-    self.onInterLoaded = Event.create()
-    self.onRewardedWatched = Event.create()
+function M:init()
+    self.isLoading = false
+    self.onRewardedLoaded = event.create()
+    self.onBannerLoaded = event.create()
+    self.onInterLoaded = event.create()
+    self.onRewardedWatched = event.create()
     if admob then
-        admob.set_callback(admob_callback)
+        admob.set_callback(function(_, message_id, message)
+            admob_callback(self, message_id, message)
+        end)
         admob.set_privacy_settings(true)
         admob.initialize()
     end
 end
 
-function AdManager:cache_ad()
-    -- util.retryUntil(function()
-    --     if self.isLoading or Storage.unsyncedState.profile.clientId == nil then return end
-    --     if not admob.is_rewarded_loaded() then
-    --         self.isLoading = true
-    --         admob.load_rewarded(sys.get_config_string("admob.rewarded_app_id"), Storage.unsyncedState.profile.clientId);
-    --     end
-    -- end, 10, function()
-    --     return false;
-    -- end)
+function M:cache_ad()
+    if not admob then return end
+    utils.retryUntil(function()
+        pprint("FETCHING...")
+        if self.isLoading then return end
+        if not admob.is_interstitial_loaded() then
+            self.isLoading = true
+            admob.load_interstitial(sys.get_config_string("admob.app_id_interstitial"));
+        end
+    end, 10, function()
+        return false;
+    end)
 end
 
-function AdManager:load_interstitial()
+function M:load_interstitial()
     if not admob then return end
     pprint("INTER LOADING")
     if not admob.is_interstitial_loaded() then
-        admob.load_interstitial(sys.get_config_string("admob.inter_app_id"));
+        admob.load_interstitial(sys.get_config_string("admob.app_id_interstitial"));
     end
 end
 
-function AdManager:show_interstitial()
+function M:show_interstitial()
     if not admob then return end
     if admob.is_interstitial_loaded() then
         admob.show_interstitial();
@@ -109,22 +113,42 @@ function AdManager:show_interstitial()
     end
 end
 
-function AdManager:load_banner(size)
-    if admob then return end
+function M:load_banner(size)
+    if not admob then return end
     if not admob.is_banner_loaded() then
-        admob.load_banner(sys.get_config_string("admob.banner_app_id"), size);
+        admob.load_banner(sys.get_config_string("admob.app_id_banner"), size);
     end
 end
 
-function AdManager:hide_banner()
+function M:hide_banner()
+    if admob then
+        admob.hide_banner()
+    end
 end
 
-function AdManager:show_banner(position)
-
+function M:destory_banner()
+    if admob then
+        admob.destroy_banner()
+    end
 end
 
-function AdManager:show_rewarded()
-    pprint("SHOW REWARDED")
+function M:show_banner(position)
+    if admob then
+        if admob.is_banner_loaded() then
+            admob.show_banner(position)
+        end
+    end
+end
+
+function M:is_banner_loaded()
+    if admob then 
+        return admob.is_banner_loaded()
+    end
+    return false
+end
+
+
+function M:show_rewarded()
     if not admob then return end
     if admob.is_rewarded_loaded() then
         self.onRewardedWatched:trigger()
@@ -133,11 +157,11 @@ function AdManager:show_rewarded()
     end
 end
 
-function AdManager:is_rewarded_loaded()
+function M:is_rewarded_loaded()
     if admob then
         return admob.is_rewarded_loaded()
     end
     return false
 end
 
-return AdManager
+return M
