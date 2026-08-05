@@ -13,8 +13,9 @@ local game_mode = hash("normal_mode")
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.druid = druid.new(self)
+	self.game_info = {}
 	self.home_button = self.druid:new_button("home_button", function()
-		LevelController:load_level(LevelController.Levels.main_menu, nil, true)
+		LevelController:load_level(LevelController.Levels.main_menu)
 	end)
 	self.end_game = gui.get_node("end_game")
 	self.end_game_overlay = gui.get_node("overlay")
@@ -34,6 +35,11 @@ end
 
 function on_message(self, message_id, message, sender)
 	self.druid:on_message(message_id, message, sender)
+
+	if message_id == hash("set_game_info") then
+		self.game_info.level_name = message.level_name
+		self.game_info.player_type = message.player_type
+	end
 
 	if message_id == hash("show_zoom_button") then
 		self.zoom_button = self.druid:new_button("zoom_out", function()
@@ -73,7 +79,7 @@ function on_message(self, message_id, message, sender)
 
 	if message_id == hash("on_game_end") then
 		self.replay_button = self.druid:new_button("replay_button", function()
-			LevelController:load_level(LevelController.Levels.main_menu, nil, true)
+			LevelController:restart_level(self.game_info.level_name, {player_type = self.game_info.player_type}, true)
 		end)
 		gui.set_enabled(self.end_game, true)
 		gui.set(self.end_game, "color.w", 0)

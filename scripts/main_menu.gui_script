@@ -1,12 +1,13 @@
 local druid = require("druid.druid")
 local game_card = require("gui.components.game_card")
 local game_select = require("gui.components.game_select")
+local AdManager = require("modules.ad_manager")
 
 local function animate_title(self)
     gui.animate(self.titel_anchor, "scale.y", 1.05, gui.EASING_INOUTSINE, 2, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
 end
 local function move_down(self)
-    gui.animate(self.titel_anchor, "position.y", -300.0, gui.EASING_INCIRC, 0.3, 0, function()
+    gui.animate(self.titel_anchor, "position.y", -400.0, gui.EASING_INCIRC, 0.3, 0, function()
         gui.animate(self.titel_anchor, "scale.y", 0.8, gui.EASING_OUTSINE, 0.1, 0, function()
             for i = 1, 2 do
                 gui.play_particlefx(gui.get_node("impact" .. i))

@@ -1,0 +1,9 @@
+local AdManager = require("modules.ad_manager")
+function init(self)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("restart") then
+		sys.reboot()
+	end
+end

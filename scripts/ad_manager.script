@@ -1,0 +1,19 @@
+local AdManager = require("modules.ad_manager")
+
+function init(self)
+	AdManager:init()
+  if admob then
+      AdManager.onBannerLoaded:subscribe(function() 
+          AdManager:show_banner(admob.POS_TOP_CENTER)
+      end)
+      AdManager:load_banner(admob.SIZE_ADAPTIVE_BANNER)
+  end
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("load_interstitial") then
+		AdManager:load_interstitial()
+	elseif message_id == hash("show_interstitial") then
+		AdManager:show_interstitial()
+	end
+end
